@@ -1,0 +1,108 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ 
+ body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Vollkorn', serif;
+  color: #343a40;
+  background: #e9ecef;
+}
+
+.main {
+  background: #f8f9fa;
+  padding: 0px 20px 50px 20px;
+  border: 2px solid #dee2e6;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0 20px 20px 0;
+  padding: 0 0 0 0;
+}
+
+ul.songs {
+  box-shadow: 1px 2px 2px #dee2e6;	
+}
+
+.header {
+  margin: 0;
+  background: #bac8ff;
+  overflow: auto;
+  border-top: 1px solid #91a7ff;
+}
+
+.header-bottom {
+  margin: 0;
+  padding: 0 0 0 20px;
+  background: #dbe4ff;
+  overflow: auto;
+  border-bottom: 1px solid #91a7ff;
+}
+
+ .header h1 {
+  padding: 0 0 0 20px;
+}
+
+.header h3 {
+  padding: 0 0 0 20px;
+}
+
+li.songs {
+  background-size:cover;
+  padding: 10px;
+}
+
+li.songs.empty { 
+  box-shadow: inset 0 0 0 40px rgba(170,187,255, 0.3);
+}
+
+li.songs.blurbed { 
+  box-shadow: inset 0 0 0 40px rgba(170,187,255, 0.7);
+}
+
+li.songs.ready {
+  box-shadow: inset 0 0 0 40px rgba(178,242,187, 0.5);
+}
+
+li.songs.full { 
+  box-shadow: inset 0 0 0 40px rgba(255, 227, 227, 0.5);
+}
+
+li.songs.closed { 
+  box-shadow: inset 0 0 0 40px rgba(255,243,191, 0.5);
+  font-style: italic;
+  font-weight: 200;
+}
+
+li.songs.published { 
+  box-shadow: inset 0 0 0 40px rgba(206,212,218, 0.3);
+  font-style: italic;
+  font-weight: 200;
+}
+
+input {
+  margin: 8px 0 8px 0;
+}
+
+.song-pic {
+  height: 20%;
+  width:  30%;
+}
+
+.trix-button-group--file-tools {
+  display: none !important; 
+}

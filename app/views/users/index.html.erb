@@ -1,0 +1,27 @@
+  <h3>Current users:</h3>
+  <% if !@users %>
+    <p>No users - if you see this ping Katherine</p>
+  <% else %>
+    <table>
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Blurbs</th>
+          <th>Social URL</th>
+        </tr>
+     </thead>
+	 <tbody>
+      <%  @users.each do |account| %>
+	    <tr>
+          <td><%= account.id %></td>
+		  <td><%= account.name %></td>
+		  <td>[Pending] [<%= link_to "All", user_path(account) %>]</td>
+		  <td><a href="<%= account.url %>" target="_blank">Link</a></td>
+      </tr>
+	<% end %>
+	</tbody>
+   </table>
+  <% end %>
+  <hr>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 

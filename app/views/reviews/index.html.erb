@@ -1,0 +1,27 @@
+  <p>This is a list of the most recently written, but yet unpublished reviews. Click the blurb ID to edit. Click the user to see all their pending blurbs. Click the song to preview all blurbs for that song.</p>
+  <% if @reviews.size == 0 %>
+    <p>No reviews yet!</p>
+  <% else %>
+    <table>
+      <thead>
+        <tr>
+          <th>Review ID</th>
+          <th>Writer</th>
+          <th>Song</th>
+          <th>Score</th>
+        </tr>
+     </thead>
+	 <tbody>
+      <%  @reviews.reverse_each do |review| %>
+	    <tr>
+          <td><%= link_to review.id, edit_review_path(review.id) %>
+		  <td><%= link_to review.user.name, user_path(review.user) %></td>
+		  <td><%= link_to "#{review.song.artist} - #{review.song.title}", review.song %></td>
+		  <td>[<%= review.score %>]</td>
+      </tr>
+	<% end %>
+	</tbody>
+   </table>
+  <% end %>
+  <hr>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 

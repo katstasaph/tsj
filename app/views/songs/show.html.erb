@@ -1,0 +1,54 @@
+<% if policy(Song).edit? %>
+  <h4>
+  <%= button_to "Edit song info", edit_song_path(@song.id),  { :method => "get" } %>
+  <% if @song.open? %>
+    <%= button_to "Close song for editing", song_path(song: { status: "closed" }), { method: :patch, form: { data: { turbo: true } } } %>  
+  <% else if @song.closed? %>
+    <%= button_to "Reopen song", song_path(song: { status: "open" }), { method: :patch, form: { data: { turbo: true } } } %>  
+	<%= button_to "Send to WordPress", wp_song_path(@song.id) %>
+  <% else %>
+    <%= button_to "Reopen song", song_path(song: { status: "open" }), { method: :patch, form: { data: { turbo: true } } } %>    
+  <% end %>
+  <% end %>  
+  </h4>
+<% end %>
+<h2><%= @song.artist %> - <%= @song.title %></h2> 
+<h4><em><%= @song.subhead %></em></h4>
+<% if @song.pic.attached? %>
+<%= image_tag @song.pic, class: "song-pic" %>
+<% else %>
+<h3>[No picture yet!]</h3>
+<% end %>
+<h4>
+<% if @song.audio %>
+[<a href="<%= @song.audio %>" target="_blank">Listen</a>]
+<% end %>
+<% if @song.video %>
+[<a href="<%= @song.video %>" target="_blank">Video</a>]
+</h4>
+<% end %>
+<% if policy(Song).edit? %>
+<strong>[<%= @song.score.nan? ? "N/A" : number_with_precision(@song.score, precision: 2) %>]</strong> <em>(Controversy index: <%= @song.controversy[:avedev].nan? ? "N/A" : number_with_precision(@song.controversy[:avedev] * @song.controversy[:multiplier], precision: 2) %>)</em></p>
+<% end %>
+  <% if @song.reviews.size == 0 %>
+    <p>No reviews yet!</p>
+  <% else %>
+      <%  @song.reviews.each do |review| %>
+      <ul>
+        <li>
+            <strong><a href="<%= review.user.url %>" target="_blank"><%= review.user.name %>:</strong></a> <%=  sanitize review.content %>
+		    [<%= review.score %>]<br>
+			<% if policy(review).edit? %>
+			  (<%= link_to "Edit this review", edit_review_path(review) %>)
+			<% end %>
+			<% if policy(review).destroy? %>
+			  (<%= link_to "Delete this review", review_path(review), :method => :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>)
+			<% end %>
+			<% if policy(User).show? %>
+              (<%= link_to "All #{review.user.name} blurbs", user_path(review.user) %>)
+			<% end %>
+        </li>
+      </ul>
+    <% end %>
+  <% end %>
+ 

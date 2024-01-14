@@ -1,0 +1,37 @@
+<h2>Add new song</h2>
+
+<%= form_with model: [@song] do |form| %>
+  <div>
+    <%= form.label :artist %><br>
+    <%= form.text_field :artist, :required => 'required' %>
+  </div>
+
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title, :required => 'required' %>
+  </div>
+     
+  <div>	
+    <%= form.label "Upload an image" %>
+    <%= form.file_field :pic %><br>  
+  </div>
+  
+  <div>
+    <%= form.label :audio %><br>
+    <%= form.text_field :audio %>
+  </div>
+ 
+   <div>
+    <%= form.label :video %><br>
+    <%= form.text_field :video %>
+  </div>
+
+  <div>
+    <%= form.label :subhead %>
+    <%= form.rich_text_area :subhead %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

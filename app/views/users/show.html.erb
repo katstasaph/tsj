@@ -1,0 +1,16 @@
+  <h3>Blurbs by <%= @user.name %></h3>
+  <% if @reviews.empty? %>
+    <p>No reviews yet!</p>
+  <% else %>
+  <% @reviews.each do |review| %>
+  <p><strong><%= review.song.artist %> - <%= review.song.title %></strong>
+  <% if review.song.status != "published" %>
+    [<%= link_to "Edit", edit_review_path(review.id) %>]
+  <% end %>
+  </p>
+  <p><%=  sanitize review.content %></p>
+  <p>[<%= review.score %>]</p>
+  <% end %>
+  <% end %>
+  <hr>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 

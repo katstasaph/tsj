@@ -1,0 +1,9 @@
+Logged in as: <%= @user.name %> 
+<% if @user.writer? %>
+(WRITER)
+<% elsif @user.editor? %>
+(EDITOR)
+<% else %>
+(ADMIN)
+<% end %>
+<%= link_to "Home", root_path %>

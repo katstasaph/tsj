@@ -1,0 +1,17 @@
+<h2><%= song.artist %> - <%= song.title %></h2>
+
+<%= form_with model: [song, review] do |form| %>
+  <div>
+    <%= form.label :score %><br>
+    <%= form.select :score, options_for_select(0...11) %>
+  </div>
+
+  <div>
+    <%= form.label :content %>
+    <%= form.rich_text_area :content %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

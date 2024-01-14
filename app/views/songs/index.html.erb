@@ -1,0 +1,28 @@
+  <% if @songs.size == 0 %>
+    <p>No songs in the blurber!</p>
+  <% else %>
+	<h3>Current songs:</h3>
+    <ul class="songs">
+      <%  @songs.each do |song| %>
+        <li class='<%= class_names(song_classes(song, song.reviews.length)) %>'>
+		 <strong><%= song.artist %> - <%= song.title %></strong>
+		  <% if current_user.admin? or current_user.editor? %>
+		   (<%= song.status.upcase %>) 
+		  <% end %>
+		  <% if song.user_written && song.status == 'open' %>
+		    (<%= link_to "Edit review", edit_review_path(song.user_review_id) %>)
+		  <% elsif song.status == 'open' %>
+            (<%= link_to "Write review", new_song_review_path(song) %>)
+		 <% end %>
+		 <% if policy(Review).index? %>
+		   (<%= link_to "See all blurbs (#{song.reviews.length})", song %>)
+		 <% end %>
+        </strong></li>
+    <% end %>
+   </ul>
+  <% end %>
+  <% if policy(Song).create? %>
+    <%= link_to "Add new song", new_song_path %>
+  <% end %>
+  <hr>
+  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 

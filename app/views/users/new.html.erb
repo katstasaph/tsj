@@ -1,0 +1,47 @@
+<h2>Add new user</h2>
+
+<%= form_with model: [@user] do |form| %>
+  <div>
+    <%= form.label :username %><br>
+    <%= form.text_field :username, :required => 'required' %>
+  </div>
+
+  <div>
+    <%= form.label :password %><br>
+    <%= form.password_field :password, :required => 'required' %>
+  </div>
+
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name, :required => 'required' %>
+  </div>
+
+  <div>
+    <%= form.label :role %><br>
+    <%= form.select :role, User.roles.keys, :selected => 0 %>
+  </div>
+ 
+  <div>
+    <%= form.label :email %><br>
+    <%= form.email_field :email %>
+  </div>
+ 
+  <div>
+    <%="User's social media/website" %><br>
+    <%= form.text_field :url %>
+  </div>
+  
+  <div>
+    <%= "WordPress username (leave blank for non-editors)" %><br>
+    <%= form.text_field :wp_username %>
+  </div>
+
+  <div>
+    <%= "WordPress application password (API key) (see above, editors/admin only please)" %><br>
+    <%= form.text_field :wp_password %>
+  </div>  
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

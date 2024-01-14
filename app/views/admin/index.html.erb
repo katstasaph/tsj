@@ -1,0 +1,6 @@
+<h2>Admin tools</h2>
+<h3>
+  <% if policy(User).create? %>
+    <%= link_to "Add user", new_user_path %>
+  <% end %>
+ </h3>
