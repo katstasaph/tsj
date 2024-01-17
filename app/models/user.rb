@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   enum role: [:writer, :editor, :admin], _default: :writer
   has_many :reviews
-  validates :username, :password, presence: true
+  validates :username, presence: true
+  validates :password_confirmation, presence: true, on: :create
   validates :email, :uniqueness => {:allow_blank => true}
 
   def set_default_role
@@ -14,7 +15,6 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  # (:registerable removed, we don't want public signup)
   devise :database_authenticatable,
-         :recoverable, :rememberable
+         :recoverable, :registerable, :rememberable
 end

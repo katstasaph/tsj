@@ -13,7 +13,7 @@ class SongPolicy < ApplicationPolicy
     end
 
     def resolve
-      if user.editor?
+      if user.writer?
         scope.where(status: :open)
       else
         scope.all
@@ -48,4 +48,9 @@ class SongPolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+  
+  def wp?
+    (user.editor? || user.admin?) && (user.wp_username != "" && user.wp_password != "" )
+  end
+  
 end

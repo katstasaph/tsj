@@ -5,10 +5,15 @@ Rails.application.routes.draw do
     post "wp"
     resources :reviews, shallow: true
   end
-  devise_for :users
-  resources :users
   get "up" => "rails/health#show", as: :rails_health_check
   root "songs#index"
+
+  devise_for :users, :skip => [:registrations] 
+  as :user do
+    get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
+    put 'users' => 'devise/registrations#update', :as => 'registration'
+  end
+  resources :users
   
   namespace :writer do
   end
@@ -18,7 +23,9 @@ Rails.application.routes.draw do
   
   get '/pages/:page', to: 'pages#show', as: 'page'
   match '/songs/:id/wp' => 'songs#wp', :as => 'wp_song', :via => [:post]
+  match '/reviews/:id/move' => 'reviews#move', :as => 'move', :via => [:patch]
 
   get '*a' => redirect { |p, req| req.flash[:alert] = "Invalid URL."; '/' }, constraints: lambda { |req|
     req.path.exclude? 'rails/active_storage' }
+	
 end

@@ -22,7 +22,6 @@ class UsersController < ApplicationController
   def create
     authorize User
     @user = User.new(user_params)
-	p @user
     if @user.save
       flash[:notice] = "Added user!"
 	  redirect_to admin_index_path
@@ -34,7 +33,14 @@ class UsersController < ApplicationController
   private
   
   def user_params
-    params.require(:user).permit(:username, :password, :name, :email, :role, :url, :wp_username, :wp_password)
+    params.require(:user).permit(:username, :password, :password_confirmation, :name, :email, :role, :url, :wp_username, :wp_password)
   end
   
+end
+
+class RegistrationsController
+
+  def after_update_path_for(resource)
+    signed_in_root_path(resource)
+  end
 end

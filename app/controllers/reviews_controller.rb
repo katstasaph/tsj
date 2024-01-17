@@ -50,6 +50,12 @@ class ReviewsController < ApplicationController
 	redirect_to @song
   end
 
+  def move
+    @review = Review.find(params[:id])
+    @review.insert_at(params[:newIndex].to_i + 1)
+    head :ok
+  end
+
   private
   
   def associate_song
@@ -58,7 +64,7 @@ class ReviewsController < ApplicationController
   end
   
   def review_params
-    params.require(:review).permit(:score, :content)
+    params.require(:review).permit(:score, :content, :position)
   end
 
 end

@@ -33,9 +33,9 @@
   <% if @song.reviews.size == 0 %>
     <p>No reviews yet!</p>
   <% else %>
+      <ul data-controller="sortable">
       <%  @song.reviews.each do |review| %>
-      <ul>
-        <li>
+        <li data-id ="<%= review.id %>">
             <strong><a href="<%= review.user.url %>" target="_blank"><%= review.user.name %>:</strong></a> <%=  sanitize review.content %>
 		    [<%= review.score %>]<br>
 			<% if policy(review).edit? %>
@@ -48,7 +48,7 @@
               (<%= link_to "All #{review.user.name} blurbs", user_path(review.user) %>)
 			<% end %>
         </li>
-      </ul>
     <% end %>
+    </ul>
   <% end %>
  
