@@ -22,9 +22,13 @@ class ReviewPolicy < SongPolicy
     update?
   end
 
+  def move?
+    update?
+  end
+
   def update?
     user.admin? or user.editor? or review.user_id == user.id
-  end
+  end 
 
   def create?
     true
