@@ -3,15 +3,18 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    authorize Review
     @reviews = Review.includes(:song, :user)
   end
 
   def new
+    authorize Review
     @song = Song.find(params[:song_id])
     @review = @song.reviews.build
   end
   
   def create
+    authorize Review
     @song = Song.find_by(id: params[:song_id])
     @review = @song.reviews.build(review_params)
 	@review.user = current_user
@@ -26,10 +29,12 @@ class ReviewsController < ApplicationController
   end
   
   def edit
+    authorize Review
     @review = Review.find(params[:id])
   end
   
   def update
+    authorize Review
     review = Review.find(params[:id])
     if review.update(review_params)
       flash[:notice] = "Updated review."
@@ -44,6 +49,7 @@ class ReviewsController < ApplicationController
   end
   
   def destroy
+    authorize Review
     @review = Review.find(params[:id])
 	@review.destroy
     flash[:notice] = "Deleted review."
@@ -51,6 +57,7 @@ class ReviewsController < ApplicationController
   end
 
   def move
+    authorize Review
     @review = Review.find(params[:id])
     @review.insert_at(params[:newIndex].to_i + 1)
     head :ok
