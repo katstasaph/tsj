@@ -27,7 +27,7 @@ class ReviewPolicy < SongPolicy
   end
 
   def update?
-    user.admin? or user.editor? or review.user_id == user.id
+    user.admin? or user.editor? or @review.user_id == user.id
   end 
 
   def create?

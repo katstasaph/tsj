@@ -6,6 +6,12 @@
       <%  @songs.each do |song| %>
         <li class='<%= class_names(song_classes(song, song.reviews.length)) %>'>
 		 <strong><%= song.artist %> - <%= song.title %></strong>
+          <% if song.audio && song.audio != "" %>
+          (<a href="<%= song.audio %>" target="_blank">Listen</a>)
+          <% end %>
+          <% if song.video && song.video != "" %>
+          (<a href="<%= song.video %>" target="_blank">Video</a>)
+          <% end %>
 		  <% if current_user.admin? or current_user.editor? %>
 		   (<%= song.status.upcase %>) 
 		  <% end %>

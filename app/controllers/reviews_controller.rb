@@ -29,13 +29,13 @@ class ReviewsController < ApplicationController
   end
   
   def edit
-    authorize Review
     @review = Review.find(params[:id])
+	authorize @review
   end
   
   def update
-    authorize Review
     review = Review.find(params[:id])
+	authorize review
     if review.update(review_params)
       flash[:notice] = "Updated review."
 	  if policy(Review).index?
