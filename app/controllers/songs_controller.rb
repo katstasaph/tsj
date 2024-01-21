@@ -55,7 +55,7 @@ class SongsController < ApplicationController
 	subhead = @song.subhead.body.to_s[34..-15]
 	title = "#{@song.artist} - #{@song.title}"
 	# todo: avoid hitting the db again for this?
-	score, controversy = Song.calculate_scores(@song)	
+	score, controversy = Song.calculate_scores(@song.reviews)	
 	blurbs = Song.collate_blurbs(subhead, @song.video, score, controversy, @song.reviews)
 	if schedule_wp(title, subhead, blurbs)
 	  if @song.update({status: 2})
@@ -77,8 +77,7 @@ class SongsController < ApplicationController
   end
   
   def schedule_wp(title, subhead, html)
-    true
-	# res = WordpressService.call(title, subhead, html, current_user)
-    # res && res.code == "201"
+	res = WordpressService.call(title, subhead, html, current_user)
+    res && res.code == "201"
   end
 end
