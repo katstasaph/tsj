@@ -13,6 +13,8 @@ class Song < ApplicationRecord
   attribute :user_review_id	
   attribute :score
   attribute :controversy
+  
+  scope :with_reviews, -> { includes(reviews: :user) }
 	
   def self.list_available(songs, current_user)
 	songs.map do |song|

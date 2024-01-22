@@ -4,7 +4,7 @@ class ReviewsController < ApplicationController
 
   def index
     authorize Review
-    @reviews = Review.includes(:song, :user)
+    @reviews = Review.includes(:song, :user).by_created
   end
 
   def new

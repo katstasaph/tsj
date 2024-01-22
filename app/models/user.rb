@@ -1,9 +1,12 @@
 class User < ApplicationRecord
   enum role: [:writer, :editor, :admin], _default: :writer
   has_many :reviews
+  
   validates :username, presence: true
   validates :password_confirmation, presence: true, on: :create
   validates :email, :uniqueness => {:allow_blank => true}
+  
+  default_scope { order(created_at: :desc) }
 
   def set_default_role
     self.role ||= :writer

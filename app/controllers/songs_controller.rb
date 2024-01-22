@@ -8,7 +8,7 @@ class SongsController < ApplicationController
   
   def show
     authorize Song
-    @song = Song.includes(reviews: :user).find(params[:id])
+    @song = Song.with_reviews.find(params[:id])
 	@song.score, @song.controversy = Song.calculate_scores(@song.reviews)
   end
   

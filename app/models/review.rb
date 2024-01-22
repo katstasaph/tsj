@@ -4,7 +4,9 @@ class Review < ApplicationRecord
   validates :score, :content, presence: true
   validates :user_id, uniqueness: { scope: [:song_id]}
   acts_as_list
+  
   default_scope { order(position: :asc) }
+  scope :by_created, -> { reorder(created_at: :asc) }
 
 
   def self.format(review)
