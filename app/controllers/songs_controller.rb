@@ -9,7 +9,7 @@ class SongsController < ApplicationController
   def show
     authorize Song
     @song = Song.with_reviews.find(params[:id])
-	@song.score, @song.controversy = Song.calculate_scores(@song.reviews)
+    @song.score, @song.controversy = Song.calculate_scores(@song.reviews)
   end
   
   def new
@@ -20,10 +20,10 @@ class SongsController < ApplicationController
   def create
     authorize Song
     @song = Song.new(song_params)
-	@song.status = 0
+    @song.status = 0
     if @song.save
       flash[:notice] = "Added song!"
-	  redirect_to action: :index
+      redirect_to action: :index
     else
       render :new, status: :unprocessable_entity
     end
@@ -39,8 +39,8 @@ class SongsController < ApplicationController
     @song = Song.find(params[:id])
     @song.pic.attach(params[:pic])
     if @song.update(song_params)
-    flash[:notice] = "Updated song!"
-        redirect_to @song
+      flash[:notice] = "Updated song!"
+      redirect_to @song
     else
       flash[:alert] = "Error updating song."
       render :edit, status: :unprocessable_entity
@@ -52,22 +52,22 @@ class SongsController < ApplicationController
   def wp
     authorize Song
     @song = Song.find(params[:song_id])
-	subhead = @song.subhead.body.to_s[34..-15]
-	title = "#{@song.artist} - #{@song.title}"
-	# todo: avoid hitting the db again for this?
-	score, controversy = Song.calculate_scores(@song.reviews)	
-	blurbs = Song.collate_blurbs(subhead, @song.video, score, controversy, @song.reviews)
-	if schedule_wp(title, subhead, blurbs)
-	  if @song.update({status: 2})
-        flash[:notice] = "Scheduling successful!"	  
-	  else 
+    subhead = @song.subhead.body.to_s[34..-15]
+    title = "#{@song.artist} - #{@song.title}"
+    # todo: avoid hitting the db again for this?
+    score, controversy = Song.calculate_scores(@song.reviews)  
+    blurbs = Song.collate_blurbs(subhead, @song.video, score, controversy, @song.reviews)
+    if schedule_wp(title, subhead, blurbs)
+      if @song.update({status: 2})
+        flash[:notice] = "Scheduling successful!"    
+      else 
         flash[:alert] = "Error updating song status, ping Katherine"
-	  end
-	  redirect_to root_path
-	else
+      end
+      redirect_to root_path
+    else
       flash[:alert] = "Error scheduling via WordPress API, ping Katherine as this is probably her fault"
       redirect_to root_path
-	end
+    end
   end
   
   private 
@@ -77,7 +77,7 @@ class SongsController < ApplicationController
   end
   
   def schedule_wp(title, subhead, html)
-	res = WordpressService.call(title, subhead, html, current_user)
+    res = WordpressService.call(title, subhead, html, current_user)
     res && res.code == "201"
   end
 end

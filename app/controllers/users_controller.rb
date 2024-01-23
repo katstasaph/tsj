@@ -8,10 +8,10 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-	@reviews = Review.includes(:song, :user).where(user_id: params[:id])
-	if @user != current_user
-	  authorize User
-	end
+    @reviews = Review.includes(:song, :user).where(user_id: params[:id])
+    if @user != current_user
+      authorize User
+    end
   end
   
   def new
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:notice] = "Added user!"
-	  redirect_to admin_index_path
+      redirect_to admin_index_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -37,6 +37,8 @@ class UsersController < ApplicationController
   end
   
 end
+
+# Patches Devise to override default redirects, todo: get this out of this file
 
 class RegistrationsController
 
