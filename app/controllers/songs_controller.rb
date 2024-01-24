@@ -3,13 +3,12 @@ class SongsController < ApplicationController
 
   def index
     authorize Song
-    @songs = Song.list_available(policy_scope(Song.includes(:reviews).order('created_at ASC')), current_user)
+    @songs = Song.list_available(policy_scope(Song.by_created), current_user)
   end
   
   def show
     authorize Song
-    @song = Song.with_reviews.find(params[:id])
-    @song.score, @song.controversy = Song.calculate_scores(@song.reviews)
+    @song = Song.with_reviews_and_users.find(params[:id])
   end
   
   def new
@@ -54,9 +53,8 @@ class SongsController < ApplicationController
     @song = Song.find(params[:song_id])
     subhead = @song.subhead.body.to_s[34..-15]
     title = "#{@song.artist} - #{@song.title}"
-    # todo: avoid hitting the db again for this?
-    score, controversy = Song.calculate_scores(@song.reviews)  
-    blurbs = Song.collate_blurbs(subhead, @song.video, score, controversy, @song.reviews)
+    blurbs = Song.collate_blurbs(subhead, @song.video, @song.score, @song.controversy, @song.reviews)
+	p blurbs
     if schedule_wp(title, subhead, blurbs)
       if @song.update({status: 2})
         flash[:notice] = "Scheduling successful!"    
@@ -77,7 +75,8 @@ class SongsController < ApplicationController
   end
   
   def schedule_wp(title, subhead, html)
-    res = WordpressService.call(title, subhead, html, current_user)
-    res && res.code == "201"
+    true
+	# res = WordpressService.call(title, subhead, html, current_user)
+    # res && res.code == "201"
   end
 end

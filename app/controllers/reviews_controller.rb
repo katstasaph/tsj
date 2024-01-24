@@ -19,6 +19,7 @@ class ReviewsController < ApplicationController
     @review = @song.reviews.build(review_params)
     @review.user = current_user
     if @review.save
+      @song.update_score!
       flash[:notice] = "Added review!"
       redirect_to root_path
     else
@@ -35,6 +36,7 @@ class ReviewsController < ApplicationController
     review = Review.find(params[:id])
     authorize review
     if review.update(review_params)
+      @song.update_score!
       flash[:notice] = "Updated review."
       if policy(Review).index?
         redirect_to @song
@@ -50,6 +52,7 @@ class ReviewsController < ApplicationController
     authorize Review
     @review = Review.find(params[:id])
     @review.destroy
+    @song.update_score!
     flash[:notice] = "Deleted review."
     redirect_to @song
   end

@@ -1,7 +1,7 @@
 class Song < ApplicationRecord
   enum :status, [ :open, :closed, :published ]
   has_rich_text :subhead
-  has_many :reviews
+  has_many :reviews, dependent: :destroy
     accepts_nested_attributes_for :reviews, allow_destroy: true
   has_one_attached :pic
   
@@ -14,13 +14,16 @@ class Song < ApplicationRecord
   attribute :score
   attribute :controversy
   
-  scope :with_reviews, -> { includes(reviews: :user) }
+  scope :with_reviews_and_users, -> { includes(reviews: :user) }
+  scope :by_created, -> { includes(:reviews).order('created_at ASC') }
+  
+  # todo: this should probably be not here
   
   def self.list_available(songs, current_user)
     songs.map do |song|
       written = false
       song.reviews.each do |review|
-        if review.user_id == current_user.id
+	    if review.by_user?(current_user.id)
           written = true
           song[:user_review_id] = review.id
           break    
@@ -31,25 +34,24 @@ class Song < ApplicationRecord
     end
   end
   
-  def self.calculate_scores(reviews)
-    scores = reviews.map { |review| review.score }
-    mean = scores.sum(0.00) / scores.length
+  def self.calculate_controversy(scores, mean)
     distances = scores.map { |score| (score - mean).abs }
     avedev = distances.sum(0.00) / distances.length
     multiplier = 1 + ([0, 0.2 * (scores.length - 8)].max)
-    controversy = {
-      avedev: avedev,
-      multiplier: multiplier
-    }
-    [mean, controversy]
+	avedev * multiplier
   end
   
   def self.collate_blurbs(subhead, video, score, controversy, reviews)
-    post_html = "<p><i>#{subhead}</i></p><center><p><img src= '' border = 2><b>[<a href='#{video}'>Video</a>]<BR><a title='Controversy index: #{sprintf('%.2f', controversy[:avedev] * controversy[:multiplier])}'>[#{sprintf('%.2f', score)}]</a></b></center></p>"
-    reviews.each do |review|
-      post_html += Review.format(review)    
-    end
+    post_html = "<p><i>#{subhead}</i></p><center><p><img src= '' border = 2><b>[<a href='#{video}'>Video</a>]<BR><a title='Controversy index: #{sprintf('%.2f', controversy)}'>[#{sprintf('%.2f', score)}]</a></b></center></p>"
+    reviews.each { |review| post_html += Review.format(review)  }
     post_html
+  end
+  
+  def update_score!
+    scores = reviews.map { |review| review.score }
+    self.score = scores.sum(0.00) / scores.length
+	self.controversy = Song.calculate_controversy(scores, self.score)
+	self.save
   end
  
 end
