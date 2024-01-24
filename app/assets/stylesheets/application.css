@@ -34,8 +34,12 @@ ul {
   padding: 0 0 0 0;
 }
 
+summary {
+  font-size: 1.1em;
+}
+
 button {
-  font-size: 1.05em;
+  font-size: 1.02em;
   padding: 6px;
 }
 
