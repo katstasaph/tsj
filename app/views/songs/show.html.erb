@@ -28,7 +28,7 @@
 <% end %>
 </h4>
 <% if policy(Song).edit? %>
-<strong>[<%= @song.score.nan? ? "N/A" : number_with_precision(@song.score, precision: 2) %>]</strong> <em>(Controversy index: <%= @song.controversy[:avedev].nan? ? "N/A" : number_with_precision(@song.controversy[:avedev] * @song.controversy[:multiplier], precision: 2) %>)</em></p>
+<strong>[<%= @song.score.nan? ? "N/A" : number_with_precision(@song.score, precision: 2) %>]</strong> <em>(Controversy index: <%= number_with_precision(@song.controversy, precision: 2) %>)</em></p>
 <% end %>
   <% if @song.reviews.size == 0 %>
     <p>No reviews yet!</p>
