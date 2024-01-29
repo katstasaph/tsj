@@ -37,7 +37,7 @@ class Song < ApplicationRecord
   def self.calculate_controversy(scores, mean)
     distances = scores.map { |score| (score - mean).abs }
     avedev = distances.sum(0.00) / distances.length
-    multiplier = 1 + ([0, 0.2 * (scores.length - 8)].max)
+    multiplier = 1 + ([0, 0.02 * (scores.length - 8)].max)
 	avedev * multiplier
   end
   
