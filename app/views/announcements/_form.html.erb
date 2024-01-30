@@ -1,0 +1,11 @@
+  <%= form_with model: @announcement do |form| %>
+  
+    <div>
+      <%= form.label :content %>
+      <%= form.rich_text_area :content %>
+    </div>
+
+    <div>
+      <%= form.button %>
+    </div>
+  <% end %>

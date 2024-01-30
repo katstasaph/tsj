@@ -16,6 +16,10 @@ class User < ApplicationRecord
     self.role ||= :admin
   end
 
+  def editor_or_above?
+    editor? || admin?
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,

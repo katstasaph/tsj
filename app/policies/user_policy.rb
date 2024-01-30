@@ -7,11 +7,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin? || user.editor?
+    user.editor_or_above?
   end
 
   def show?
-    user.admin? || user.editor?
+    user.editor_or_above?
   end
 
   def new?

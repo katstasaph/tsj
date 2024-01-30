@@ -26,7 +26,7 @@ class SongPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? || user.editor?
+    user.editor_or_above?
   end
 
   def new?
@@ -38,19 +38,20 @@ class SongPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || user.editor?
+    user.editor_or_above?
   end
 
   def create?
-    user.admin? || user.editor?
+    user.editor_or_above?
   end
 
   def destroy?
     user.admin?
   end
   
+  # todo: default to post under my username for reasons of realism
   def wp?
-    (user.editor? || user.admin?) && (user.wp_username != "" && user.wp_password != "" )
+    (user.editor_or_above?) && (user.wp_username != "" && user.wp_password != "" )
   end
   
 end

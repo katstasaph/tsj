@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :reviews
+  resources :announcements
   resources :admin, only: [:index]
   resources :songs do
     post "wp"

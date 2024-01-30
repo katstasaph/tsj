@@ -7,7 +7,7 @@ class ReviewPolicy < SongPolicy
   end
  
   def index?
-    user.admin? or user.editor?
+    user.editor_or_above?
   end
 
   def show?
@@ -27,7 +27,7 @@ class ReviewPolicy < SongPolicy
   end
 
   def update?
-    user.admin? or user.editor? or @review.user_id == user.id
+    user.editor_or_above? || @review.user_id == user.id
   end 
 
   def create?
@@ -35,6 +35,6 @@ class ReviewPolicy < SongPolicy
   end
 
   def destroy?
-    user.admin? or user.editor?
+    user.editor_or_above?
   end
 end

@@ -1,3 +1,13 @@
+ <div class="announcement">
+   <%= @announcement.content %>
+ </div>
+ <% if current_user.editor_or_above? %>
+   <%= turbo_frame_tag @announcement, target: "_top" do %>
+      <div>
+        <%= link_to "Edit announcement", edit_announcement_path(@announcement), data: { turbo_frame: dom_id(@announcement) } %>
+      </div>
+    <% end %>
+  <% end %>
   <% if @songs.size == 0 %>
     <p>No songs in the blurber!</p>
   <% else %>

@@ -4,6 +4,7 @@ class SongsController < ApplicationController
   def index
     authorize Song
     @songs = Song.list_available(policy_scope(Song.by_created), current_user)
+	@announcement = Announcement.find(1)
   end
   
   def show
@@ -54,7 +55,6 @@ class SongsController < ApplicationController
     subhead = @song.subhead.body.to_s[34..-15]
     title = "#{@song.artist} - #{@song.title}"
     blurbs = Song.collate_blurbs(subhead, @song.video, @song.score, @song.controversy, @song.reviews)
-	p blurbs
     if schedule_wp(title, subhead, blurbs)
       if @song.update({status: 2})
         flash[:notice] = "Scheduling successful!"    
