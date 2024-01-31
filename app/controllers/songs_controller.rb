@@ -52,10 +52,11 @@ class SongsController < ApplicationController
   def wp
     authorize Song
     @song = Song.find(params[:song_id])
+	time = params[:post_time].to_time.iso8601
     subhead = @song.subhead.body.to_s[34..-15]
     title = "#{@song.artist} - #{@song.title}"
     blurbs = Song.collate_blurbs(subhead, @song.video, @song.score, @song.controversy, @song.reviews)
-    if schedule_wp(title, subhead, blurbs)
+    if schedule_wp(time, title, subhead, blurbs)
       if @song.update({status: 2})
         flash[:notice] = "Scheduling successful!"    
       else 
@@ -74,9 +75,9 @@ class SongsController < ApplicationController
     params.require(:song).permit(:artist, :title, :pic, :audio, :video, :subhead, :status)
   end
   
-  def schedule_wp(title, subhead, html)
-    true
-	# res = WordpressService.call(title, subhead, html, current_user)
-    # res && res.code == "201"
+  def schedule_wp(time, title, subhead, html)
+	#true
+	res = WordpressService.call(time, title, subhead, html, current_user)
+    res && res.code == "201"
   end
 end

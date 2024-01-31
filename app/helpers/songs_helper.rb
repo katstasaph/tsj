@@ -10,4 +10,10 @@ module SongsHelper
 	published: song.status == "published"
 	}
   end 
+  
+  def song_scores(score, controversy)
+    precise_score = !score || score.nan? ? "N/A" : number_with_precision(score, precision: 2) 
+	precise_controversy = number_with_precision(controversy, precision: 2) 
+    "<strong>[#{precise_score}]</strong> <em>(Controversy index: #{precise_controversy})</em>".html_safe
+  end
 end

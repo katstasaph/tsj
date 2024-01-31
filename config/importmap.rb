@@ -8,3 +8,5 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin "trix"
 pin "@rails/actiontext", to: "actiontext.esm.js"
 pin "sortablejs" # @1.15.2
+pin "flatpickr" # @4.6.13
+pin "stimulus-flatpickr" # @3.0.0

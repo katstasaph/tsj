@@ -5,7 +5,22 @@
     <%= button_to "Close song for editing", song_path(song: { status: "closed" }), { method: :patch, form: { data: { turbo: true } } } %>  
   <% else if @song.closed? %>
     <%= button_to "Reopen song", song_path(song: { status: "open" }), { method: :patch, form: { data: { turbo: true } } } %>  
-	<%= button_to "Send to WordPress", wp_song_path(@song.id) %>
+    <%= form_with url: wp_song_path, method: :post, data: { turbo: true } do |form| %>
+	    <div>
+          <%= form.label "Schedule post at (GMT):" %>
+          <%= form.text_field :post_time,
+             data: {
+               controller: "flatpickr",
+			   enable_time: true,
+               flatpickr_date_format: "Y-m-d H:i",
+               flatpickr_min_date: Time.zone.now,
+			   flatpickr_default_date: Time.zone.now.strftime('%Y-%m-%d %H:%M %p')
+            } %>
+	    </div>
+        <div>
+          <%= form.button "Post" %>
+        </div>
+     <% end %>
   <% else %>
     <%= button_to "Reopen song", song_path(song: { status: "open" }), { method: :patch, form: { data: { turbo: true } } } %>    
   <% end %>
@@ -28,7 +43,7 @@
 <% end %>
 </h4>
 <% if policy(Song).edit? %>
-<strong>[<%= @song.score.nan? ? "N/A" : number_with_precision(@song.score, precision: 2) %>]</strong> <em>(Controversy index: <%= number_with_precision(@song.controversy, precision: 2) %>)</em></p>
+  <%= song_scores(@song.score, @song.controversy) %>
 <% end %>
   <% if @song.reviews.size == 0 %>
     <p>No reviews yet!</p>
