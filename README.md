@@ -22,7 +22,7 @@ To initialize the database, run `rails db migrate` in the console.
 - Notification to editors before closing if a writer has the blurb entry field open (probably needs a timeout in case someone leaves the tab open)
 - Notification to writers that a post has closed while they are editing/composing a blurb (requires server sent events, probably)
 - Blurb backup system
-- Make the frontend actually look nice, including on mobile. in particular, the wad o' links at the top
+- Make the frontend actually look nice, including on mobile. in particular, the wad o' links at the top - convert to tabs
 - Automatically generate HTML for Tumblr and Cohost and any other social media platforms we may want to utilize
 - "Edit all the blurbs together before posting" (did anyone ever use this)
 - Recreate the writer stats page (editors and up)
@@ -41,6 +41,7 @@ To initialize the database, run `rails db migrate` in the console.
 
 ## Known bugs:
 
+- Background on song table rows does not cover full row on some mobile devices
 - Flash messages persist in their view prior to re-rendering, this looks bad
 
 ## Other necessities:
