@@ -45,7 +45,7 @@ button {
 
 .tab {
   border-right: 1px solid #495057;
-  padding: 0 10px 0 0;
+  padding: 0 8px 0 4px;
 }
 
 table {
@@ -79,7 +79,7 @@ tr.ready {
 }
 
 tr.full { 
-  box-shadow: inset 0 0 0 40px rgba(255, 227, 227, 0.5);
+  box-shadow: inset 0 0 0 40px rgba(255, 227, 227, 0.8);
 }
 
 tr.closed { 
