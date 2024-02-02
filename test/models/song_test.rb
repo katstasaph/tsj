@@ -81,22 +81,22 @@ class CollateBlurbTest < ActiveSupport::TestCase
     subhead = "Banger from Ellen Allien Fabric mix"
 	image_link = ""
 
-    expected_header = "<p><i>Banger from Ellen Allien Fabric mix</i></p><center><p><img src= '' border = 2><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.00'>[0.00]</a></b></center></p>"
+    expected_header = "<p><i>Banger from Ellen Allien Fabric mix</i></p><center><img src= '' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.00'>[0.00]</a></b></center></p>"
     assert_equal(expected_header, Song.generate_html(song, subhead, image_link))
   end
 
   test "song with reviews generates html blurb" do
     song = Song.create(title: "Line Up", artist: "Elastica", status: "open", video: "https://youtube.com", score: 6.50, controversy: 0.23)
     user1 = User.create!(username: "oscarwilde", name: "Oscar Wilde", url: "readinggaol.com", password_confirmation: "whatevs")
-    review1 = Review.create(song_id: song.id, user_id: user1.id, score: 5, content: "Lorem ipsum")
+    review1 = Review.create(song_id: song.id, user_id: user1.id, score: 5, content: "<div>Lorem ipsum</div>")
     # User Jane doesn't have a website
     user2 = User.create!(username: "janeausten", name: "Jane Austen", password_confirmation: "whatevs")
-    review2 = Review.create(song_id: song.id, user_id: user2.id, score: 8, content: "Love it")
+    review2 = Review.create(song_id: song.id, user_id: user2.id, score: 8, content: "<div>Love it</div>")
     subhead = "In which Justine fixes her laundry hanger"
     song.reviews = [review1, review2]
 	image_link = ""
 
-    expected_header = "<p><i>In which Justine fixes her laundry hanger</i></p><center><p><img src= '' border = 2><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.23'>[6.50]</a></b></center></p>"
+    expected_header = "<p><i>In which Justine fixes her laundry hanger</i></p><center><img src= '' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.23'>[6.50]</a></b></center></p>"
     expected_blurb1 = "<p><a href='readinggaol.com' target='_blank'><strong>Oscar Wilde:</strong></a> Lorem ipsum<br>[5]</p>"
     expected_blurb2 = "<p><strong>Jane Austen:</strong> Love it<br>[8]</p>"
 
