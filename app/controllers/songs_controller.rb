@@ -37,7 +37,7 @@ class SongsController < ApplicationController
   def update
     authorize Song
     @song = Song.find(params[:id])
-    @song.pic.attach(params[:pic])
+    if params[:pic] then @song.pic.attach(params[:pic]) end
     if @song.update(song_params)
       flash[:notice] = "Updated song!"
       redirect_to @song
@@ -47,8 +47,8 @@ class SongsController < ApplicationController
     end
   end
   
-  # Sends song data to WordPress site to schedule the corresponding post.
-  # todo: optimize, this seems rather slow, ideally get it out of controller?
+  # Sends song data to WordPress site to schedule the corresponding post. 
+  # other todo: optimize, this seems rather slow; move most of this to service
   def wp
     authorize Song
     @song = Song.find(params[:song_id])
@@ -77,7 +77,7 @@ class SongsController < ApplicationController
   
   def schedule_wp(time, title, subhead, html)
 	#true
-	res = WordpressService.call(time, title, subhead, html, current_user)
+	res = WordpressService.create_post(time, title, subhead, html, current_user)
     res && res.code == "201"
   end
 end
