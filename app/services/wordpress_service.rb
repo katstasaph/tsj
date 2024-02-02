@@ -1,5 +1,4 @@
 class WordpressService
-  include Rails.application.routes.url_helpers  
   MEDIA_URI = 'https://www.thesinglesjukebox.com/index.php?rest_route=/wp/v2/media'
   POST_URI = 'https://www.thesinglesjukebox.com/index.php?rest_route=/wp/v2/posts'
 
