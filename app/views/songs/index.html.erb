@@ -38,10 +38,12 @@
             <%= link_to "Write review", new_song_review_path(song) %>
 		 <% end %>
 		 </td>
-		 <% if policy(Review).index? %>
 		 <td>
+		 <% if policy(Review).index? %>
 		   <%= link_to "See all blurbs (#{song.reviews.length})", song %>
-		 <% end %>
+		<% else %>
+		  (<strong><%= song.reviews.length %></strong> blurbs)
+		<% end %>
 		 </td>
         </strong></tr>
 		</tbody>
