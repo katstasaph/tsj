@@ -15,15 +15,15 @@ To initialize the database, run `rails db migrate` in the console.
 
 ## Features:
 
-- Add image to WordPress post HTML, this is currently unfinished because it is not needed until Feb 4 really
 - Post scheduling: queue posts to go up at next available time slot (likely w/ Active Job)
-- Also post scheduling: associate songs w/ day they (we hope) run, with ability to swap, like the old blurber
+- Add a visible schedule table to the announcement panel, like the old blurber, w/ ability to edit (drag/drop?)
 - Raw HTML and/or Markdown text editor
 - Notification to editors before closing if a writer has the blurb entry field open (probably needs a timeout in case someone leaves the tab open)
 - Notification to writers that a post has closed while they are editing/composing a blurb (requires server sent events, probably)
 - Blurb backup system
 - Make the frontend actually look nice, including on mobile. in particular, the wad o' links at the top - convert to tabs
 - Automatically generate HTML for Tumblr and Cohost and any other social media platforms we may want to utilize
+- Inline edit field for review editing?
 - "Edit all the blurbs together before posting" (did anyone ever use this)
 - Recreate the writer stats page (editors and up)
 - Editor-only announcement field (to coordinate in blurber with future editors), either on index or associated w/ songs
@@ -41,10 +41,11 @@ To initialize the database, run `rails db migrate` in the console.
 
 ## Known bugs:
 
+- Uploading images via the REST API does not currently work, currently unclear to me how much is on the blurber's end and how much is the WordPress host
 - Background on song table rows does not cover full row on some mobile devices
-- Flash messages persist in their view prior to re-rendering, this looks bad
+- Flash messages persist in their view prior to re-rendering, this looks bad - Turbo cache issue apparently
 
 ## Other necessities:
 
 - Make the code less of a mess, a lot of stuff is happening where it shouldn't
-- Test suite 
+- Finish test suite 
