@@ -32,6 +32,7 @@ To initialize the database, run `rails db migrate` in the console.
 
 ## Improvements:
 
+- Strip excess divs that rich text editor can produce, and in general extract the text stripping out
 - Look further into performance, in particular whether caching is necessary beyond what is currently there (at this scale, maybe not?)
 - Pagination? (do we really need this)
 - Add option for editors to close a song from the index page?
