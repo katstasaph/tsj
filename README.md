@@ -36,6 +36,7 @@ To initialize the database, run `rails db migrate` in the console.
 - Look further into performance, in particular whether caching is necessary beyond what is currently there (at this scale, maybe not?)
 - Pagination? (do we really need this)
 - Add option for editors to close a song from the index page?
+- Add option for editors to specify custom alt text in edit song details, currently it defaults to artist - title which is the bare minimum
 - Add a toggle for drag/drop rearranging blurbs, currently it is a little annoying if you want to highlight some text to copy/paste
 - Actually get rid of the image attachment feature in the rich text editor instead of just display:none on the icon
 - Get this off render
