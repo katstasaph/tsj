@@ -47,12 +47,12 @@ class Song < ApplicationRecord
   def update_score!
     scores = reviews.map { |review| review.score }
     self.score = scores.sum(0.00) / scores.length
-        self.controversy = Song.calculate_controversy(scores, self.score)
-        self.save
+    self.controversy = Song.calculate_controversy(scores, self.score)
+    self.save
   end
   
   def self.schedule_post(song, time, current_user)
-    time = time.to_time.iso8601
+    time = time.to_time(:utc).iso8601
     subhead = song.subhead.body.to_s[34..-15]
     image_link = song.pic.attached? ? TEMP_IMAGE_HOST + Rails.application.routes.url_helpers.rails_blob_path(song.pic, only_path: true) : ""
     html = self.generate_html(song, subhead, image_link)
@@ -65,14 +65,14 @@ class Song < ApplicationRecord
   private  
   
   def self.generate_html(song, subhead, image_link)
-    post_html = "<p><i>#{subhead}</i></p><center><img src= '#{image_link}' border = 2><br><b>[<a href='#{song.video}'>Video</a>]<BR><a title='Controversy index: #{sprintf('%.2f', song.controversy)}'>[#{sprintf('%.2f', song.score)}]</a></b></center></p>"
-        song.reviews.each { |review| post_html += Review.format(review)  }
+    post_html = "<p><i>#{subhead}</i></p><center><img src= '#{image_link}' alt = '#{song.artist} - #{song.title}' border = 2><br><b>[<a href='#{song.video}'>Video</a>]<BR><a title='Controversy index: #{sprintf('%.2f', song.controversy)}'>[#{sprintf('%.2f', song.score)}]</a></b></center></p>"
+    song.reviews.each { |review| post_html += Review.format(review)  }
     post_html
   end
 
   def self.schedule_wp(time, title, subhead, html, current_user)
-        #true
-        res = WordpressService.create_post(time, title, subhead, html, current_user)
-    res && res.code == "201"
+      #true
+      res = WordpressService.create_post(time, title, subhead, html, current_user)
+      res && res.code == "201"
   end 
 end

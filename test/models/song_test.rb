@@ -24,8 +24,8 @@ class SongTest < ActiveSupport::TestCase
   test "uploading image attaches image to song" do
     song = Song.create(title: "Everything Is Embarrassing", artist: "Sky Ferreira", status: "open")
     pic = file_fixture("sky.jpeg")
-	song.pic.attach(pic)
-	assert song.pic.attached?
+    song.pic.attach(pic)
+    assert song.pic.attached?
   end
 
 end
@@ -79,9 +79,9 @@ class CollateBlurbTest < ActiveSupport::TestCase
   test "song with no reviews or image just has an html post with the header" do
     song = Song.create(title: "India In Me", artist: "Cobblestone Jazz", status: "open", video: "https://youtube.com", score: 0, controversy: 0, reviews: [])
     subhead = "Banger from Ellen Allien Fabric mix"
-	image_link = ""
+    image_link = ""
 
-    expected_header = "<p><i>Banger from Ellen Allien Fabric mix</i></p><center><img src= '' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.00'>[0.00]</a></b></center></p>"
+    expected_header = "<p><i>Banger from Ellen Allien Fabric mix</i></p><center><img src= '' alt = 'Cobblestone Jazz - India In Me' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.00'>[0.00]</a></b></center></p>"
     assert_equal(expected_header, Song.generate_html(song, subhead, image_link))
   end
 
@@ -94,9 +94,9 @@ class CollateBlurbTest < ActiveSupport::TestCase
     review2 = Review.create(song_id: song.id, user_id: user2.id, score: 8, content: "<div>Love it</div>")
     subhead = "In which Justine fixes her laundry hanger"
     song.reviews = [review1, review2]
-	image_link = ""
+    image_link = ""
 
-    expected_header = "<p><i>In which Justine fixes her laundry hanger</i></p><center><img src= '' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.23'>[6.50]</a></b></center></p>"
+    expected_header = "<p><i>In which Justine fixes her laundry hanger</i></p><center><img src= '' alt = 'Elastica - Line Up' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.23'>[6.50]</a></b></center></p>"
     expected_blurb1 = "<p><a href='readinggaol.com' target='_blank'><strong>Oscar Wilde:</strong></a> Lorem ipsum<br>[5]</p>"
     expected_blurb2 = "<p><strong>Jane Austen:</strong> Love it<br>[8]</p>"
 

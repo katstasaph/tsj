@@ -3,9 +3,9 @@ class WordpressService
   POST_URI = 'https://www.thesinglesjukebox.com/index.php?rest_route=/wp/v2/posts'
 
   def self.create_post(time, title, subhead, post, user)
-    # res = self.upload_image(title, pic, user)
-    # p res, res.body
-    # if !res || res.code != '201' then return res end
+     #res = self.upload_image(title, pic, user)
+     #p res, res.body
+     #if !res || res.code != '201' then return res end
     self.post_song(time, title, subhead, post, user)
   end
 
@@ -30,10 +30,10 @@ class WordpressService
     req.basic_auth user.wp_username, user.wp_password
     req['Content-Type'] = 'application/json'
     body = {
-      status: "pending",
-          title: title,
-        date: time,
-      excerpt: subhead,
+      status: "publish",
+        title: title,
+        date_gmt: time,
+        excerpt: subhead,
         content: post
     }.to_json
     res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) do |http|
