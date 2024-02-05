@@ -3,4 +3,9 @@
   <% if policy(User).create? %>
     <%= link_to "Add user", new_user_path %>
   <% end %>
+  <p></p>
+  <% if current_user.admin? %>
+	<%= button_to "Repair blurb positions", reposition_path %>
+  <% end %>
  </h3>
+  Manually resets the positions of reviews associated with ALL open songs. Blurb order may shift in flight.

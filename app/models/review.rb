@@ -3,7 +3,7 @@ class Review < ApplicationRecord
   belongs_to :user
   validates :score, :content, presence: true
   validates :user_id, uniqueness: { scope: [:song_id]}
-  acts_as_list
+  acts_as_list scope: :song
   
   default_scope { order(position: :asc) }
   scope :by_created, -> { reorder(created_at: :asc) }

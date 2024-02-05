@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   end
   
   get '/pages/:page', to: 'pages#show', as: 'page'
+  post '/admin/reposition' => 'admin#reposition', :as => 'reposition'
+
   match '/songs/:id/wp' => 'songs#wp', :as => 'wp_song', :via => [:post]
   match '/reviews/:id/move' => 'reviews#move', :as => 'move', :via => [:patch]
 
