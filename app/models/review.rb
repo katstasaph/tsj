@@ -6,6 +6,7 @@ class Review < ApplicationRecord
   acts_as_list scope: :song
   
   default_scope { order(position: :asc) }
+  scope :all_unpublished, -> { includes(:song, :user).where("songs.status != 2").references(:songs).by_created }
   scope :by_created, -> { reorder(created_at: :asc) }
 
   def self.format(review)
