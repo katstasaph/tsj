@@ -10,7 +10,7 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
 
   test "authenticated user should see index" do
     sign_in users(:bob)
-    get root_path
-    assert_response :success  # This will fail until I set up an announcement fixture
+    get "/"
+    assert_response :success
   end
 end
