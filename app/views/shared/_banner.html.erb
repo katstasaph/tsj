@@ -1,43 +1,43 @@
 <% if current_user %>
 <h3>
-<div class="subheader">
-<div class="welcome">
-Logged in as: <%= current_user.name %> 
-<% if current_user.writer? %>
-(WRITER)
-<% elsif current_user.editor? %>
-(EDITOR)
-<% else %>
-(ADMIN)
-<% end %>
-</div>
-<p></p>
-<nav>
-  <% if !current_page?(root_url) %>
-    <span class="tab"><%= link_to "Home", root_path %></span>
-  <% end %>
-  <% if !current_page?(user_path(current_user)) %>
-    <span class="tab"><%= link_to "My blurbs", user_path(current_user) %></span>
-  <% end %>
-  <% if !current_page?(edit_user_registration_path) %>
-    <span class="tab"><%= link_to "Update account info", edit_user_registration_path %></span>
-  <% end %>
-  <% if !current_page?(page_path(:faq)) %>
-    <span class="tab"><%= link_to "Site FAQ", page_path(:faq) %></span>
-  <% end %>
-  <% if !current_page?(page_path(:style)) %>
-    <span class="tab"><%= link_to "Style guide", page_path(:style) %></span>
-  <% end %>
-  <% if policy(User).index? and !current_page?(users_path) %>
-    <span class="tab"><%= link_to "Userlist", users_path %></span>
-  <% end %>
-  <% if policy(Review).index? and !current_page?(reviews_path) %>
-    <span class="tab"><%= link_to "Review log", reviews_path %></span>
-  <% end %>
-  <% if current_user.admin? and !current_page?(admin_index_path) %> 
-    <span class="tab"><%= link_to "Admin tools", admin_index_path %></span>
-  <% end %>
-</nav>
-</h3>
+  <div class="subheader">
+    <div class="welcome">
+      Logged in as: <%= current_user.name %>
+        <% if current_user.writer? %>
+          (WRITER)
+        <% elsif current_user.editor? %>
+          (EDITOR)
+        <% else %>
+          (ADMIN)
+        <% end %>
+    </div>
+    <p></p>
+    <nav>
+      <% if !current_page?(root_url) %>
+        <span class="tab"><%= link_to "Home", root_path %></span>
+      <% end %>
+      <% if !current_page?(user_path(current_user)) %>
+        <span class="tab"><%= link_to "My blurbs", user_path(current_user) %></span>
+      <% end %>
+      <% if !current_page?(edit_user_registration_path) %>
+        <span class="tab"><%= link_to "Update account info", edit_user_registration_path %></span>
+      <% end %>
+      <% if !current_page?(page_path(:faq)) %>
+        <span class="tab"><%= link_to "Site FAQ", page_path(:faq) %></span>
+      <% end %>
+      <% if !current_page?(page_path(:style)) %>
+        <span class="tab"><%= link_to "Style guide", page_path(:style) %></span>
+      <% end %>
+      <% if policy(User).index? and !current_page?(users_path) %>
+        <span class="tab"><%= link_to "Userlist", users_path %></span>
+      <% end %>
+      <% if policy(Review).index? and !current_page?(reviews_path) %>
+        <span class="tab"><%= link_to "Review log", reviews_path %></span>
+      <% end %>
+      <% if current_user.admin? and !current_page?(admin_index_path) %>
+        <span class="tab"><%= link_to "Admin tools", admin_index_path %></span>
+      <% end %>
+    </nav>
+  </h3>
 </div>
 <% end %>

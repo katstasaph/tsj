@@ -30,40 +30,41 @@
 <h2><%= @song.artist %> - <%= @song.title %></h2> 
 <h4><em><%= @song.subhead %></em></h4>
 <% if @song.pic.attached? %>
-<%= image_tag @song.pic, class: "song-pic" %>
+  <%= image_tag @song.pic, class: "song-pic" %>
 <% else %>
-<h3>[No picture yet!]</h3>
+  <h3>[No picture yet!]</h3>
 <% end %>
 <h4>
-<% if @song.audio && @song.audio != "" %>
-[<a href="<%= @song.audio %>" target="_blank">Listen</a>]
-<% end %>
-<% if @song.video && @song.video != "" %>
-[<a href="<%= @song.video %>" target="_blank">Video</a>]
-<% end %>
+  <% if @song.audio && @song.audio != "" %>
+    [<a href="<%= @song.audio %>" target="_blank">Listen</a>]
+  <% end %>
+  <% if @song.video && @song.video != "" %>
+    [<a href="<%= @song.video %>" target="_blank">Video</a>]
+  <% end %>
 </h4>
 <% if policy(Song).edit? %>
   <%= song_scores(@song.score, @song.controversy) %>
 <% end %>
-  <% if @song.reviews.size == 0 %>
-    <p>No reviews yet!</p>
-  <% else %>
-      <ul data-controller="sortable">
-      <%  @song.reviews.each do |review| %>
-        <li data-id ="<%= review.id %>">
-            <strong><a href="<%= review.user.url %>" target="_blank"><%= review.user.name %>:</strong></a> <%= sanitize review.content %>
-		    [<%= review.score %>]<br>
-			<% if policy(review).edit? %>
-			  (<%= link_to "Edit this review", edit_review_path(review) %>)
-			<% end %>
-			<% if policy(review).destroy? %>
-			  (<%= link_to "Delete this review", review_path(review), :method => :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>)
-			<% end %>
-			<% if policy(User).show? %>
-              (<%= link_to "All #{review.user.name} blurbs", user_path(review.user) %>)
-			<% end %>
-        </li>
+
+<% if @song.reviews.size == 0 %>
+  <p>No reviews yet!</p>
+<% else %>
+  <ul data-controller="sortable">
+    <%  @song.reviews.each do |review| %>
+      <li data-id ="<%= review.id %>">
+        <strong><a href="<%= review.user.url %>" target="_blank"><%= review.user.name %>:</strong></a> <%= sanitize review.content %>
+        [<%= review.score %>]<br>
+        <% if policy(review).edit? %>
+          (<%= link_to "Edit this review", edit_review_path(review) %>)
+        <% end %>
+        <% if policy(review).destroy? %>
+          (<%= link_to "Delete this review", review_path(review), :method => :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>)
+        <% end %>
+        <% if policy(User).show? %>
+          (<%= link_to "All #{review.user.name} blurbs", user_path(review.user) %>)
+        <% end %>
+      </li>
     <% end %>
-    </ul>
-  <% end %>
+  </ul>
+<% end %>
  

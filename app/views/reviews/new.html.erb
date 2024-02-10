@@ -1,12 +1,12 @@
 <h2>Submit review</h2>
 <h3><%= @song.artist %> - <%= @song.title %></h3>
 <h4>
-<% if @song.audio && @song.audio != "" %>
-[<a href="<%= @song.audio %>" target="_blank">Listen</a>]
-<% end %>
-<% if @song.video && @song.video != "" %>
-[<a href="<%= @song.video %>" target="_blank">Video</a>]
-<% end %>
+  <% if @song.audio && @song.audio != "" %>
+    [<a href="<%= @song.audio %>" target="_blank">Listen</a>]
+  <% end %>
+  <% if @song.video && @song.video != "" %>
+    [<a href="<%= @song.video %>" target="_blank">Video</a>]
+  <% end %>
 </h4>
 
 <%= form_with model: [@song, @review] do |form| %>

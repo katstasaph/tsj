@@ -1,8 +1,8 @@
- <div class="announcement">
-   <%= @announcement.content %>
- </div>
- <% if current_user.editor_or_above? %>
-   <%= turbo_frame_tag @announcement, target: "_top" do %>
+<div class="announcement">
+  <%= @announcement.content %>
+</div>
+  <% if current_user.editor_or_above? %>
+    <%= turbo_frame_tag @announcement, target: "_top" do %>
       <div>
         <%= link_to "Edit announcement", edit_announcement_path(@announcement), data: { turbo_frame: dom_id(@announcement) } %>
       </div>
@@ -14,44 +14,46 @@
 	<h3>Current songs:</h3>
     <table class="songs">
 	<tbody>
-      <%  @songs.each do |song| %>
+      <% @songs.each do |song| %>
         <tr class='<%= class_names(song_classes(song, song.reviews.length)) %>'>
-		 <td><strong><%= song.artist %> - <%= song.title %></strong> 
-		   <% if current_user.admin? or current_user.editor? %>
-		   (<%= song.status.upcase %>) 
-		  <% end %>
+		  <td>
+		    <strong><%= song.artist %> - <%= song.title %></strong>
+		    <% if current_user.admin? or current_user.editor? %>
+		      (<%= song.status.upcase %>)
+		    <% end %>
 		  </td>
           <td>
-		  <% if song.audio && song.audio != "" %>
-            <a href="<%= song.audio %>" target="_blank">Listen</a>
-          <% end %>
+            <% if song.audio && song.audio != "" %>
+              <a href="<%= song.audio %>" target="_blank">Listen</a>
+            <% end %>
 		  </td>
 		  <td>
-          <% if song.video && song.video != "" %>
-            <a href="<%= song.video %>" target="_blank">Video</a>
-          <% end %>
+            <% if song.video && song.video != "" %>
+              <a href="<%= song.video %>" target="_blank">Video</a>
+            <% end %>
 		  </td>
 		  <td>
-		  <% if song.user_written && song.status == 'open' %>
-		    <%= link_to "Edit review", edit_review_path(song.user_review_id) %>
-		  <% elsif song.status == 'open' %>
-            <%= link_to "Write review", new_song_review_path(song) %>
-		 <% end %>
-		 </td>
-		 <td>
-		 <% if policy(Review).index? %>
-		   <%= link_to "See all blurbs (#{song.reviews.length})", song %>
-		<% else %>
-		  (<strong><%= song.reviews.length %></strong> blurbs)
-		<% end %>
-		 </td>
-        </strong></tr>
-		</tbody>
-    <% end %>
-   </table>
-  <% end %>
-  <p><% if policy(Song).create? %>
+		    <% if song.user_written && song.status == 'open' %>
+		      <%= link_to "Edit review", edit_review_path(song.user_review_id) %>
+		    <% elsif song.status == 'open' %>
+              <%= link_to "Write review", new_song_review_path(song) %>
+		    <% end %>
+		  </td>
+		  <td>
+		    <% if policy(Review).index? %>
+		      <%= link_to "See all blurbs (#{song.reviews.length})", song %>
+            <% else %>
+              (<strong><%= song.reviews.length %></strong> blurbs)
+            <% end %>
+		  </td>
+        </tr>
+      <% end %>
+    </tbody>
+ </table>
+<% end %>
+<p>
+  <% if policy(Song).create? %>
     <%= link_to "Add new song", new_song_path, :method => :get %>
   <% end %>
-  </p>
-  <p><%= button_to "Sign out", destroy_user_session_path, method: :delete %></p>
+</p>
+<p><%= button_to "Sign out", destroy_user_session_path, method: :delete %></p>
