@@ -16,6 +16,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.5'
-          bundler-cache: true
+          # bundler-cache: true   # This isn't working so installing separately below :(
+      - name: Install
+        run: bundle install
       - name: Run tests
         run: bundle exec rails test
