@@ -1,0 +1,47 @@
+name: Run tests
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: ""
+          POSTGRES_HOST_AUTH_METHOD: trust  # OK for unit tests
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.5'
+          # bundler-cache: true   # This isn't working so installing separately below :(
+      - name: Install
+        run: bundle install
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: postgres
+          PGPORT: 5432
+        run: |
+          bin/rails db:create db:schema:load
+          bundle exec rails test
