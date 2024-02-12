@@ -34,6 +34,9 @@
 <% else %>
   <h3>[No picture yet!]</h3>
 <% end %>
+<% if policy(Song).edit? %>
+  Image alt text: <%= @song.alttext ? @song.alttext : @song.artist + " - " +  @song.title %>
+<% end %>
 <h4>
   <% if @song.audio && @song.audio != "" %>
     [<a href="<%= @song.audio %>" target="_blank">Listen</a>]
