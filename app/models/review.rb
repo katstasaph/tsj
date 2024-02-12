@@ -15,12 +15,7 @@ class Review < ApplicationRecord
   end
 
   def self.format(review)
-    stripped_blurb = review.content[5..-7]
-    if review.url.present? then
-      "<p><a href='#{review.url}' target='_blank'><strong>#{review.name}:</strong></a> #{stripped_blurb}<br>[#{review.score}]</p>"
-    else
-      "<p><strong>#{review.name}:</strong> #{stripped_blurb}<br>[#{review.score}]</p>"
-    end
+    FormatterService.generate_review(review)
   end
 
   def by_user?(id) 
