@@ -74,12 +74,13 @@ class ControversyTest < ActiveSupport::TestCase
   end
 end
 
+# todo: simplify these since much of the html formatting has been moved out of the song model?
 class CollateBlurbTest < ActiveSupport::TestCase
   include Rails.application.routes.url_helpers
   test "song with no reviews or image just has an html post with the header" do
     song = Song.create(title: "India In Me", artist: "Cobblestone Jazz", status: "open", video: "https://youtube.com", score: 0, controversy: 0, reviews: [])
     subhead = "Banger from Ellen Allien Fabric mix"
-    image_link = ""
+    image_link = ""l
 
     expected_header = "<p><i>Banger from Ellen Allien Fabric mix</i></p><center><img src= '' alt = 'Cobblestone Jazz - India In Me' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.00'>[0.00]</a></b></center></p>"
     assert_equal(expected_header, Song.generate_html(song, subhead, image_link))

@@ -26,11 +26,11 @@ class Song < ApplicationRecord
     songs.map do |song|
       written = false
       song.reviews.each do |review|
-            if review.by_user?(current_user.id)
-          written = true
-          song[:user_review_id] = review.id
-          break    
-        end
+          if review.by_user?(current_user.id)
+            written = true
+            song[:user_review_id] = review.id
+            break    
+          end
       end
       song[:user_written] = written
       song
@@ -41,7 +41,7 @@ class Song < ApplicationRecord
     distances = scores.map { |score| (score - mean).abs }
     avedev = distances.sum(0.00) / distances.length
     multiplier = 1 + ([0, 0.02 * (scores.length - 8)].max)
-        avedev * multiplier
+    avedev * multiplier
   end
 
   def update_score!
@@ -53,11 +53,11 @@ class Song < ApplicationRecord
   
   def self.schedule_post(song, time, current_user)
     time = time.to_time(:utc).iso8601
-    subhead = song.subhead.body.to_s[34..-15]
+    stripped_subhead = FormatterService.strip_subhead(song.subhead)
     image_link = song.pic.attached? ? TEMP_IMAGE_HOST + Rails.application.routes.url_helpers.rails_blob_path(song.pic, only_path: true) : ""
-    html = self.generate_html(song, subhead, image_link)
+    html = self.generate_html(song, stripped_subhead, image_link)
     title = "#{song.artist} - #{song.title}"
-    self.schedule_wp(time, title, subhead, html, current_user)
+    self.schedule_wp(time, title, stripped_subhead, html, current_user)
   end
  
 # subhead, @song.video, @song.score, @song.controversy, @song.reviews
@@ -65,8 +65,8 @@ class Song < ApplicationRecord
   private  
   
   def self.generate_html(song, subhead, image_link)
-    post_html = "<p><i>#{subhead}</i></p><center><img src= '#{image_link}' alt = '#{song.artist} - #{song.title}' border = 2><br><b>[<a href='#{song.video}'>Video</a>]<BR><a title='Controversy index: #{sprintf('%.2f', song.controversy)}'>[#{sprintf('%.2f', song.score)}]</a></b></center></p>"
-    song.reviews.each { |review| post_html += Review.format(review)  }
+    post_html = FormatterService.generate_post_frame(song, subhead, image_link)
+    song.reviews.each { |review| post_html += FormatterService.generate_review(review)  }
     post_html
   end
 
