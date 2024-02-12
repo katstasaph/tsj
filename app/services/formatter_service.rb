@@ -6,7 +6,8 @@ class FormatterService
   end
   
   def self.generate_post_frame(song, subhead, image_link)
-    post_html = "<p><i>#{subhead}</i></p><center><img src= '#{image_link}' alt = '#{song.artist} - #{song.title}' border = 2><br><b>[<a href='#{song.video}'>Video</a>]"
+    alt = song.alttext ? song.alttext : "#{song.artist} - #{song.title}"
+    post_html = "<p><i>#{subhead}</i></p><center><img src= '#{image_link}' alt = '#{alt}' border = 2><br><b>[<a href='#{song.video}'>Video</a>]"
     post_html += "<BR><a title='Controversy index: #{sprintf('%.2f', song.controversy)}'>[#{sprintf('%.2f', song.score)}]</a></b></center></p>"
   end
 

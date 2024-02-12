@@ -11,6 +11,14 @@ class FormatterTest < ActiveSupport::TestCase
   end
   
   test "standard post frame is generated correctly" do
+    song = Song.create(title: "4 Ever", artist: "The Veronicas", alttext: "a real image", video: "https://youtube.com", score: 8, controversy: 0.55, status: "closed")
+    stripped_subhead = "we did this already"
+    image_link = "some url"
+    expected_frame = "<p><i>we did this already</i></p><center><img src= 'some url' alt = 'a real image' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.55'>[8.00]</a></b></center></p>"
+    assert_equal(expected_frame, FormatterService.generate_post_frame(song, stripped_subhead, image_link))
+  end  
+
+  test "post frame for song without alt text is generated with default alt text" do
     song = Song.create(title: "4 Ever", artist: "The Veronicas", video: "https://youtube.com", score: 8, controversy: 0.55, status: "closed")
     stripped_subhead = "we did this already"
     image_link = "some url"
