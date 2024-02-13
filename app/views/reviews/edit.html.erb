@@ -1,25 +1,16 @@
-<h2>Edit <%= @review.user.name %>'s review</h2>
-<h3>
+<% if inline_review_edit? %>
+  <%= turbo_frame_tag "review_#{@review.id}" do %>
+    <%= render "form", review: @review %>
+  <% end %>
+<% else %>
+  <h2>Edit <%= @review.user.name %>'s review</h2>
+  <h3>
     <%= @song.artist %> - <%= @song.title %>
     <% if current_user.writer? %>
       (<%= link_to "Go back", root_path %>)
     <% else %>
       (<%= link_to "Go back", @song %>)
     <% end %>
-</h3>
-
-<%= form_with model: [@review] do |form| %>
-  <div>
-    <%= form.label :score %><br>
-    <%= form.select :score, (0...11) %>
-  </div>
-
-  <div>
-    <%= form.label :content %>
-    <%= form.rich_text_area :content %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+  </h3>
+  <%= render "form", review: @review %>
 <% end %>

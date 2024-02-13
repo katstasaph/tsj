@@ -54,20 +54,23 @@
 <% else %>
   <ul data-controller="sortable">
     <%  @song.reviews.each do |review| %>
-      <li data-id ="<%= review.id %>">
-        <strong><a href="<%= review.user.url %>" target="_blank"><%= review.user.name %>:</strong></a> <%= sanitize review.content %>
-        [<%= review.score %>]<br>
-        <% if policy(review).edit? %>
-          (<%= link_to "Edit this review", edit_review_path(review) %>)
-        <% end %>
-        <% if policy(review).destroy? %>
-          (<%= link_to "Delete this review", review_path(review), :method => :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>)
-        <% end %>
-        <% if policy(User).show? %>
-          (<%= link_to "All #{review.user.name} blurbs", user_path(review.user) %>)
-        <% end %>
-      </li>
-    <% end %>
+        <li data-id ="<%= review.id %>">
+	        <%= turbo_frame_tag "review_#{review.id}", target: "_top" do %>
+              <strong><a href="<%= review.user.url %>" target="_blank"><%= review.user.name %>:</strong></a> <%= sanitize review.content %>
+            <% end %>
+		  <div class="review"></div>
+          [<%= review.score %>]<br>
+          <% if policy(review).edit? %>
+			  (<%= link_to "Edit this review", edit_review_path(review), data: { turbo_frame: dom_id(review) } %>)
+         <% end %>
+          <% if policy(review).destroy? %>
+            (<%= link_to "Delete this review", review_path(review), :method => :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>)
+          <% end %>
+          <% if policy(User).show? %>
+            (<%= link_to "All #{review.user.name} blurbs", user_path(review.user) %>)
+          <% end %>
+        </li>
+  <% end %>
   </ul>
 <% end %>
  
