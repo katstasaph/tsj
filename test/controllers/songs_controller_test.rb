@@ -10,7 +10,42 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
 
   test "authenticated user should see index" do
     sign_in users(:bob)
-    get "/"
+    get root_path
     assert_response :success
+  end
+
+  test "admin can add new song" do
+    sign_in users(:bob)
+    get new_song_path
+    assert_response :success
+
+    post songs_path, params: { song: { artist: 'Patti Smith', title: 'Horses' } }
+    follow_redirect!
+    assert_response :success
+    assert_select "p.notice", "Added song!"
+  end
+
+  test "editor can add new song" do
+    sign_in users(:carol)
+    get new_song_path
+    assert_response :success
+
+    post songs_path, params: { song: { artist: 'The Editors', title: 'Dont Actually Know Any Editors Songs' } }
+    follow_redirect!
+    assert_response :success
+    assert_select "p.notice", "Added song!"
+  end
+
+  test "writer cannot add new song" do
+    sign_in users(:alice)
+    get new_song_path
+    assert_response :redirect
+    follow_redirect!
+    assert_select "p.alert", text: "You are not authorized to perform this action."
+  end
+
+  test "unauthenticated user cannot add new song" do
+    get new_song_path
+    assert_redirected_to '/users/sign_in'
   end
 end

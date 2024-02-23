@@ -8,7 +8,10 @@ alice:
  role: 'writer'
  username: 'alice'
 
-
 bob:
  role: 'admin'
  username: 'bob'
+
+carol:
+ role: 'editor'
+ username: 'carol'
