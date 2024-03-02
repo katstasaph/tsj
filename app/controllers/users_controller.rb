@@ -8,7 +8,15 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    @reviews = Review.includes(:song, :user).where(user_id: params[:id])
+    # TODO Should probably put some validation here but ehhh
+    @unpublished_only = request.query_parameters['unpublished_only']
+
+    if @unpublished_only
+      @reviews = Review.includes(:song, :user).where(user_id: params[:id]).joins(:song).where(song: {status: Song.statuses['open']})
+    else
+      @reviews = Review.includes(:song, :user).where(user_id: params[:id])
+    end
+
     if @user != current_user
       authorize User
     end

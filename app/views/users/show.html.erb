@@ -1,4 +1,11 @@
   <h3>Blurbs by <%= @user.name %></h3>
+  <p class="show_unpublished_link">
+      <% if @unpublished_only %>
+        <%= link_to "Show all reviews", user_path(current_user) %>
+      <% else %>
+        <%= link_to "Show unpublished reviews only", user_path(current_user, unpublished_only: "true") %>
+      <% end %>
+  </p>
   <% if @reviews.empty? %>
     <p>No reviews yet!</p>
   <% else %>
