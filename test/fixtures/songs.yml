@@ -9,3 +9,8 @@ rasputin:
   title: "Rasputin"
   artist: "Boney M"
   status: "open"
+
+slab:
+  title: "Slab"
+  artist: "Wombo"
+  status: "closed"

@@ -13,3 +13,10 @@ review2:
   score: 1
   song: rasputin
   user: alice
+
+review3:
+  content: MyString
+  rich_text: MyString
+  score: 1
+  song: slab
+  user: alice
