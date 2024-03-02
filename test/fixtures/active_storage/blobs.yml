@@ -1,0 +1,1 @@
+sky_pic_blob:  <%= ActiveStorage::FixtureSet.blob filename: "sky.jpeg", service_name: 'test' %>                                                                               

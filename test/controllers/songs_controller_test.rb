@@ -48,4 +48,19 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     get new_song_path
     assert_redirected_to '/users/sign_in'
   end
+
+  test "admin can see song details" do
+    sign_in users(:bob)
+    @song = Song.find_by(title: "Everything Is Embarrassing")
+    assert @song.pic.attached?  # Fixture should have a corresponding sky.jpeg blob
+
+    get song_path(@song.id)
+
+    assert_response :success
+
+    assert_select "h2", text: "Sky Ferreira - Everything Is Embarrassing"
+    assert_select "button", text: "Reopen song", count: 1
+    assert_select "button", text: "Edit song info", count: 1
+    assert_select "img", count: 1
+  end
 end
