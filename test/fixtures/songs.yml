@@ -14,3 +14,8 @@ slab:
   title: "Slab"
   artist: "Wombo"
   status: "closed"
+
+embarrassing:
+  title: "Everything Is Embarrassing"
+  artist: "Sky Ferreira"
+  status: "published"

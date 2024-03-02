@@ -20,3 +20,10 @@ review3:
   score: 1
   song: slab
   user: alice
+
+review4:
+  content: MyString
+  rich_text: MyString
+  score: 10
+  song: embarrassing
+  user: alice
