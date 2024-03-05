@@ -11,7 +11,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("Sortable controller connected")
     this.sortable = Sortable.create(this.element, {
       animation: 150,
       ghostClass: "sortable-ghost",
@@ -22,7 +21,6 @@ export default class extends Controller {
   }
 
   async end(event) {
-    console.log("Sortable onEnd triggered")
     const request = new FetchRequest('patch', `/reviews/${event.item.dataset.id}/move`, { query: {oldIndex: event.oldIndex, newIndex: event.newIndex}});
     const response = await request.perform()
     console.log(response)

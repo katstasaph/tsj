@@ -51,16 +51,18 @@ class Song < ApplicationRecord
     self.save
   end
   
-  def self.schedule_post(song, time, current_user)
+  def self.schedule_post!(song, time, current_user)
     time = time.to_time(:utc).iso8601
     stripped_subhead = FormatterService.strip_subhead(song.subhead)
     image_link = song.pic.attached? ? TEMP_IMAGE_HOST + Rails.application.routes.url_helpers.rails_blob_path(song.pic, only_path: true) : ""
     html = self.generate_html(song, stripped_subhead, image_link)
     title = "#{song.artist} - #{song.title}"
-    self.schedule_wp(time, title, stripped_subhead, html, current_user)
+	p "done schedule_post preformatting" 
+    unless self.schedule_wp(time, title, stripped_subhead, html, current_user)
+      return false
+    end
+	true
   end
- 
-# subhead, @song.video, @song.score, @song.controversy, @song.reviews
 
   private  
   
