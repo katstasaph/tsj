@@ -57,7 +57,6 @@ class Song < ApplicationRecord
     image_link = song.pic.attached? ? TEMP_IMAGE_HOST + Rails.application.routes.url_helpers.rails_blob_path(song.pic, only_path: true) : ""
     html = self.generate_html(song, stripped_subhead, image_link)
     title = "#{song.artist} - #{song.title}"
-	p "done schedule_post preformatting" 
     unless self.schedule_wp(time, title, stripped_subhead, html, current_user)
       return false
     end
@@ -75,6 +74,8 @@ class Song < ApplicationRecord
   def self.schedule_wp(time, title, subhead, html, current_user)
       #true
       res = WordpressService.create_post(time, title, subhead, html, current_user)
+	  p res
+	  p res.code
       res && res.code == "201"
   end 
 end
