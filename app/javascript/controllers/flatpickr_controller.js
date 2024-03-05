@@ -6,7 +6,6 @@ import Flatpickr from 'stimulus-flatpickr'
 export default class extends Flatpickr {
 
   connect() {
-    console.log("Flatpickr connected")
 	super.connect()
   }
 }

@@ -52,7 +52,7 @@ class SongsController < ApplicationController
   def wp
     authorize Song
     @song = Song.find(params[:song_id])
-    if Song.schedule_post(@song, params[:post_time], current_user) 
+    if Song.schedule_post!(@song, params[:post_time], current_user) 
       if @song.update({status: 2})
         flash[:notice] = "Scheduling successful!"    
       else 

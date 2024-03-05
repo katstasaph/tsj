@@ -6,6 +6,7 @@ class WordpressService
      #res = self.upload_image(title, pic, user)
      #p res, res.body
      #if !res || res.code != '201' then return res end
+	 p "in create_post"
     self.post_song(time, title, subhead, post, user)
   end
 
@@ -36,6 +37,7 @@ class WordpressService
         excerpt: subhead,
         content: post
     }.to_json
+	p body
     res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => true) do |http|
       http.request(req, body)
     end
