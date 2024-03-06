@@ -67,7 +67,7 @@ class Song < ApplicationRecord
     unless self.schedule_wp(time, title, stripped_subhead, html, current_user)
       return false
     end
-	true
+    true
   end
 
   private  
@@ -77,9 +77,9 @@ class Song < ApplicationRecord
   end
 
   def self.schedule_wp(time, title, subhead, html, current_user)
-      #true
-      res = WordpressService.create_post(time, title, subhead, html, current_user)
-	  p res
-      res && res.code == "201"
+    #true
+    res = WordpressService.create_post(time, title, subhead, html, current_user)
+    p res
+    res && res.code == "201"
   end 
 end
