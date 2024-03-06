@@ -79,11 +79,11 @@ class CollateBlurbTest < ActiveSupport::TestCase
   include Rails.application.routes.url_helpers
   test "song with no reviews or image just has an html post with the header" do
     song = Song.create(title: "India In Me", artist: "Cobblestone Jazz", status: "open", video: "https://youtube.com", score: 0, controversy: 0, reviews: [])
-    subhead = "Banger from Ellen Allien Fabric mix"
+    song.subhead = "<div>Banger from Ellen Allien Fabric mix</div>"
     image_link = ""
 
     expected_header = "<p><i>Banger from Ellen Allien Fabric mix</i></p><center><img src= '' alt = 'Cobblestone Jazz - India In Me' border = 2><br><b>[<a href='https://youtube.com'>Video</a>]<BR><a title='Controversy index: 0.00'>[0.00]</a></b></center></p>"
-    assert_equal(expected_header, Song.generate_html(song, subhead, image_link))
+    assert_equal(expected_header, song.generate_html)
   end
 
   test "song with reviews generates html blurb" do
@@ -93,7 +93,7 @@ class CollateBlurbTest < ActiveSupport::TestCase
     # User Jane doesn't have a website
     user2 = User.create!(username: "janeausten", name: "Jane Austen", password_confirmation: "whatevs")
     review2 = Review.create(song_id: song.id, user_id: user2.id, score: 8, content: "<div>Love it</div>")
-    subhead = "In which Justine fixes her laundry hanger"
+    song.subhead = "<div>In which Justine fixes her laundry hanger</div>"
     song.reviews = [review1, review2]
     image_link = ""
 
@@ -102,6 +102,6 @@ class CollateBlurbTest < ActiveSupport::TestCase
     expected_blurb2 = "<p><strong>Jane Austen:</strong> Love it<br>[8]</p>"
 
     expected_post = expected_header + expected_blurb1 + expected_blurb2
-    assert_equal(expected_post, Song.generate_html(song, subhead, image_link))
+    assert_equal(expected_post, song.generate_html)
   end
 end

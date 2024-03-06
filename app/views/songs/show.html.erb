@@ -21,6 +21,9 @@
           <%= form.button "Post" %>
         </div>
      <% end %>
+	 <div data-controller="clipboard">
+       <button data-action="click->clipboard#copy_html" data-clipboard-target="button" data-clipboard-html-param="<%= @song.generate_html %>">Copy post HTML</button>
+	 </div>
   <% else %>
     <%= button_to "Reopen song", song_path(song: { status: "open" }), { method: :patch, form: { data: { turbo: true } } } %>    
   <% end %>
@@ -35,7 +38,7 @@
   <h3>[No picture yet!]</h3>
 <% end %>
 <% if policy(Song).edit? %>
-  Image alt text: <%= @song.alttext ? @song.alttext : @song.artist + " - " +  @song.title %>
+  <p>Image alt text: <%= @song.alttext ? @song.alttext : @song.artist + " - " +  @song.title %></p>
 <% end %>
 <h4>
   <% if @song.audio && @song.audio != "" %>
