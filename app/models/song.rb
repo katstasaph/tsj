@@ -51,31 +51,35 @@ class Song < ApplicationRecord
     self.save
   end
   
+  def generate_html
+    stripped_subhead = FormatterService.strip_subhead(self.subhead)
+    image_link = self.image_url
+    post_html = FormatterService.generate_post_frame(self, stripped_subhead, image_link)
+    self.reviews.each { |review| post_html += FormatterService.generate_review(review)  }
+    post_html
+  end
+  
   def self.schedule_post!(song, time, current_user)
     time = time.to_time(:utc).iso8601
     stripped_subhead = FormatterService.strip_subhead(song.subhead)
-    image_link = song.pic.attached? ? TEMP_IMAGE_HOST + Rails.application.routes.url_helpers.rails_blob_path(song.pic, only_path: true) : ""
-    html = self.generate_html(song, stripped_subhead, image_link)
+    html = song.generate_html
     title = "#{song.artist} - #{song.title}"
     unless self.schedule_wp(time, title, stripped_subhead, html, current_user)
       return false
     end
-	true
+    true
   end
 
   private  
   
-  def self.generate_html(song, subhead, image_link)
-    post_html = FormatterService.generate_post_frame(song, subhead, image_link)
-    song.reviews.each { |review| post_html += FormatterService.generate_review(review)  }
-    post_html
+  def image_url
+    self.pic.attached? ? TEMP_IMAGE_HOST + Rails.application.routes.url_helpers.rails_blob_path(self.pic, only_path: true) : ""
   end
 
   def self.schedule_wp(time, title, subhead, html, current_user)
-      #true
-      res = WordpressService.create_post(time, title, subhead, html, current_user)
-	  p res
-	  p res.code
-      res && res.code == "201"
+    #true
+    res = WordpressService.create_post(time, title, subhead, html, current_user)
+    p res
+    res && res.code == "201"
   end 
 end
