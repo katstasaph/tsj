@@ -8,7 +8,9 @@ class Review < ApplicationRecord
   
   default_scope { order(position: :asc) }
   scope :all_unpublished, -> { includes(:song, :user).where("songs.status != 2").references(:songs).by_created }
+  scope :all_open, -> { includes(:song, :user).where("songs.status = 0").references(:songs).by_created }
   scope :by_created, -> { reorder(created_at: :asc) }
+  scope :by_user, -> id { includes(:song, :user).where(user_id: id) }
 
   def url_present?
     return self.url.present?

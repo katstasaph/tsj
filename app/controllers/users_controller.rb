@@ -12,9 +12,9 @@ class UsersController < ApplicationController
     @unpublished_only = request.query_parameters['unpublished_only']
 
     if @unpublished_only
-      @reviews = Review.includes(:song, :user).where(user_id: params[:id]).joins(:song).where(song: {status: Song.statuses['open']})
+      @reviews = Review.all_open.by_user(params[:id])
     else
-      @reviews = Review.includes(:song, :user).where(user_id: params[:id])
+      @reviews = Review.by_user(params[:id])
     end
 
     if @user != current_user

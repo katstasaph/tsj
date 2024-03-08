@@ -16,7 +16,7 @@
 	    <tr>
           <td><%= account.id %></td>
 		  <td><%= account.name %></td>
-		  <td>[Pending] [<%= link_to "All", user_path(account) %>]</td>
+		  <td>[<%= link_to "Pending", user_path(account, unpublished_only: "true") %>] [<%= link_to "All", user_path(account) %>]</td>
 		  <td><a href="<%= account.url %>" target="_blank">Link</a></td>
       </tr>
 	<% end %>
