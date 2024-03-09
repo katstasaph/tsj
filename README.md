@@ -22,8 +22,8 @@ To initialize the database, run `rails db migrate` in the console.
 - Notification to writers that a post has closed while they are editing/composing a blurb (requires server sent events, probably)
 - Blurb backup system
 - Make the frontend actually look nice, including on mobile. in particular, the wad o' links at the top - convert to tabs
-- Automatically generate HTML for Tumblr and Cohost and any other social media platforms we may want to utilize
-- Inline edit field for review editing?
+- Automatically generate HTML for Tumblr and Cohost (requires separate page/modal/dropdown to choose and order blurbs to highlight) and any other social media platforms we may want to utilize
+- Automatically post to social media at specified times
 - "Edit all the blurbs together before posting" (did anyone ever use this)
 - Recreate the writer stats page (editors and up)
 - Editor-only announcement field (to coordinate in blurber with future editors), either on index or associated w/ songs
@@ -36,18 +36,20 @@ To initialize the database, run `rails db migrate` in the console.
 - Look further into performance, in particular whether caching is necessary beyond what is currently there (at this scale, maybe not?)
 - Pagination? (do we really need this)
 - Add option for editors to close a song from the index page?
-- Add option for editors to specify custom alt text in edit song details, currently it defaults to artist - title which is the bare minimum
 - Add a toggle for drag/drop rearranging blurbs, currently it is a little annoying if you want to highlight some text to copy/paste
 - Actually get rid of the image attachment feature in the rich text editor instead of just display:none on the icon
 - Get this off render
 
 ## Known bugs:
 
-- Uploading images via the REST API does not currently work, currently unclear to me how much is on the blurber's end and how much is the WordPress host
-- Background on song table rows does not cover full row on some mobile devices
-- Flash messages persist in their view prior to re-rendering, this looks bad - Turbo cache issue apparently
+- Uploading images via the WordPress REST API does not currently work, currently unclear to me how much is on the blurber's end and how much is the WordPress host
+- Periodic 200 and 400 responses from the WP API. May be an occasional thing, so far it has only happened on one day
+- Adding formatting (links, strikethrough, etc.) while editing reviews displays unwanted behavior 
+- Background on song table rows does not cover full row on some mobile devices and does not appear at all on Safari
+
+(See Issues tab for full list)
 
 ## Other necessities:
 
-- Make the code less of a mess, a lot of stuff is happening where it shouldn't
+- Continue to refactor code; the controllers are in better shape now 
 - Finish test suite 
