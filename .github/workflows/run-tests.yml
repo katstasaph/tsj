@@ -25,6 +25,14 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
@@ -42,6 +50,8 @@ jobs:
           PGHOST: localhost
           PGUSER: postgres
           PGPORT: 5432
+          REDIS_HOST: redis
+          REDIS_PORT: 6379
         run: |
           bin/rails db:create db:schema:load
           bundle exec rails test
