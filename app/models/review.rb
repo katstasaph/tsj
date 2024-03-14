@@ -26,6 +26,8 @@ class Review < ApplicationRecord
     self.user_id == id
   end
   
+  # All review lock methods use user's name rather than ID to prevent having to query the database again to display the user's name.
+  # Since we are not updating the user records in any way, nothing more is needed.
   def can_edit?(name)
     !self.locked? || self.current_editor == name
   end
