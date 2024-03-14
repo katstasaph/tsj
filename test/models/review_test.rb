@@ -31,5 +31,20 @@ class ReviewTest < ActiveSupport::TestCase
     reviews = test_reviews.by_user(@user2.id)
     assert_equal(1, reviews.count)
   end
+  
+  test "review should be editable if no one is currenly editing it" do
+    @review1.current_editor = nil
+    assert @review1.can_edit?("Carly Rae Jepsen")
+  end
+  
+  test "review should not be editable if being edited by someone else" do
+    @review1.current_editor = "Carly Rae Jepsen"
+    refute @review1.can_edit?("Selena Gomez")
+  end
+  
+  test "review should be editable if being edited b oneself" do
+    @review1.current_editor = "Carly Rae Jepsen"
+    assert @review1.can_edit?("Carly Rae Jepsen")
+  end
 
 end

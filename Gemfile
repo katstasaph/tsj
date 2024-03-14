@@ -50,6 +50,8 @@ gem "pundit"
 
 gem "net-http"
 
+gem "sidekiq"
+
 gem "acts_as_list"
 
 gem "sortablejs-rails"
