@@ -80,4 +80,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'mock_redis', '~> 0.13.2'
 end
