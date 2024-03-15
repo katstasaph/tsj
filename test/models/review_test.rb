@@ -12,7 +12,10 @@ class ReviewTest < ActiveSupport::TestCase
     @review2 = Review.create!(song_id: @song2.id, user_id: @user1.id, score: 10, content: "<div>it's [10] season now</div>")    
     @review3 = Review.create!(song_id: @song3.id, user_id: @user1.id, score: 1, content: "<div>don't pick up the phone</div>")
     @review4 = Review.create!(song_id: @song1.id, user_id: @user2.id, score: 9, content: "<div>so relatable</div>")    
+    @previous_queue_size = Sidekiq::Worker.jobs.size # Depending on test order ActiveStorage::AnalyzeJob may be enqueued, we can't rely on the queue being empty
   end
+  
+  # Scope tests
   
   test "unpublished review scope only includes reviews for open and closed songs" do
     test_reviews = Review.where(id: [@review1.id, @review2.id, @review3.id])
@@ -32,7 +35,9 @@ class ReviewTest < ActiveSupport::TestCase
     assert_equal(1, reviews.count)
   end
   
-  test "review should be editable if no one is currenly editing it" do
+  # Edit lock tests
+  
+  test "review should be editable if no one is currently editing it" do
     @review1.current_editor = nil
     assert @review1.can_edit?("Carly Rae Jepsen")
   end
@@ -42,9 +47,25 @@ class ReviewTest < ActiveSupport::TestCase
     refute @review1.can_edit?("Selena Gomez")
   end
   
-  test "review should be editable if being edited b oneself" do
+  test "review should be editable if being edited by oneself" do
     @review1.current_editor = "Carly Rae Jepsen"
     assert @review1.can_edit?("Carly Rae Jepsen")
+  end
+  
+  test "locking a review should create an edit unlock job if nobody is editing" do
+    @review1.lock!("Carly Rae Jepsen")
+    assert_equal(@previous_queue_size + 1, Sidekiq::Worker.jobs.size) 
+  end
+  
+  test "locking a review should not create an edit unlock job if there is already someone editing" do
+    @review1.current_editor = "Carly Rae Jepsen"
+    @review1.lock!("Carly Rae Jepsen")
+    assert_equal(@previous_queue_size, Sidekiq::Worker.jobs.size) 
+  end 
+  
+  def teardown
+    # Todo: Is it possible for this to cause issues in another test if it clears ActiveStorage::AnalyzeJob? Have not gotten it to happen...
+    Sidekiq::Worker.clear_all
   end
 
 end
