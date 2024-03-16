@@ -12,6 +12,8 @@ class Review < ApplicationRecord
   scope :by_created, -> { reorder(created_at: :asc) }
   scope :by_user, -> id { includes(:song, :user).where(user_id: id) }
 
+  EDIT_LOCK_TIMEOUT = 30
+
   def url_present?
     return self.url.present?
   end
@@ -24,4 +26,27 @@ class Review < ApplicationRecord
     self.user_id == id
   end
   
+  # All review lock methods use user's name rather than ID to prevent having to query the database again to display the user's name.
+  # Since we are not updating the user records in any way, nothing more is needed.
+  def can_edit?(name)
+    !self.locked? || self.current_editor == name
+  end
+  
+  def locked?
+    !!self.current_editor
+  end
+  
+  def lock!(name)
+    unless self.current_editor == name
+      self.current_editor = name
+      self.save
+      ExpireEditLockJob.set(wait: EDIT_LOCK_TIMEOUT.minutes).perform_later(self.id)
+    end    
+  end
+  
+  def unlock!
+    self.current_editor = nil
+    self.save
+  end
+
 end

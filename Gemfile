@@ -50,6 +50,8 @@ gem "pundit"
 
 gem "net-http"
 
+gem "sidekiq"
+
 gem "acts_as_list"
 
 gem "sortablejs-rails"
@@ -78,4 +80,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'mock_redis', '~> 0.13.2'
 end

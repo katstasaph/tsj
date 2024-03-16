@@ -4,3 +4,10 @@ import "controllers"
 
 import "trix"
 import "@rails/actiontext"
+
+document.addEventListener("turbo:frame-missing", event => {
+  if (event.detail.response.redirected) {
+    event.preventDefault()
+    event.detail.visit(event.detail.response)
+  }
+})

@@ -63,9 +63,11 @@
             <% end %>
 		  <div class="review"></div>
           [<%= review.score %>]<br>
-          <% if policy(review).edit? %>
-			  (<%= link_to "Edit this review", edit_review_path(review), data: { turbo_frame: dom_id(review) } %>)
-         <% end %>
+          <% if policy(review).edit? && review.can_edit?(current_user.name) %>
+			     (<%= link_to "Edit this review", edit_review_path(review), data: { turbo_frame: dom_id(review) } %>)
+          <% elsif policy(review).edit? && !review.can_edit?(current_user.name) %>
+            (<%= review.current_editor %> is editing)
+          <% end %>
           <% if policy(review).destroy? %>
             (<%= link_to "Delete this review", review_path(review), :method => :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>)
           <% end %>
