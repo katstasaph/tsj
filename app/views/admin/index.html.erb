@@ -5,7 +5,14 @@
   <% end %>
   <p></p>
   <% if current_user.admin? %>
-	<%= button_to "Repair blurb positions", reposition_path %>
+    <%= button_to "Repair blurb positions", reposition_path %>
   <% end %>
  </h3>
   Manually resets the positions of reviews associated with ALL open songs. Blurb order may shift in flight.
+  <p></p>
+  <h3>
+  <% if current_user.admin? %>
+    <%= button_to "Clear edit locks", clear_locks_path %>
+  <% end %>
+ </h3>
+ Unlocks all reviews. WARNING: May take a long time
