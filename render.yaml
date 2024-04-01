@@ -2,19 +2,16 @@ databases:
   - name: blurber
     databaseName: blurber
     user: blurber
-    plan: free
 
 services:
   - type: redis
     name: sidekiq-redis
-    region: ohio
     maxmemoryPolicy: noeviction
     ipAllowList: [] # only allow internal connections
 
   - type: worker
     name: sidekiq-worker
     runtime: ruby
-    region: ohio
     buildCommand: bundle install
     startCommand: bundle exec sidekiq
     envVars:

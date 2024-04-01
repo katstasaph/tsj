@@ -3,8 +3,8 @@ class ExpireEditLockJob < ApplicationJob
 
   def perform(review_id)
     review = Review.find(review_id)
-    if review.locked?
-      review.unlock!
+    if review.edit_locked?
+      review.edit_unlock!
     end
   end
 end
