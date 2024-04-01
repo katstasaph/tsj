@@ -53,13 +53,13 @@ class ReviewTest < ActiveSupport::TestCase
   end
   
   test "locking a review should create an edit unlock job if nobody is editing" do
-    @review1.lock!("Carly Rae Jepsen")
+    @review1.edit_lock!("Carly Rae Jepsen")
     assert_equal(@previous_queue_size + 1, Sidekiq::Worker.jobs.size) 
   end
   
   test "locking a review should not create an edit unlock job if there is already someone editing" do
     @review1.current_editor = "Carly Rae Jepsen"
-    @review1.lock!("Carly Rae Jepsen")
+    @review1.edit_lock!("Carly Rae Jepsen")
     assert_equal(@previous_queue_size, Sidekiq::Worker.jobs.size) 
   end 
   

@@ -31,7 +31,7 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id])
     authorize @review
     if @review.can_edit?(current_user.name)
-      @review.lock!(current_user.name)
+      @review.edit_lock!(current_user.name)
     else
       flash[:notice] = "This review is being edited by #{@review.current_editor} and is currently locked."
       redirect_to root_path
@@ -43,7 +43,7 @@ class ReviewsController < ApplicationController
     authorize review
     if review.update(review_params)
       @song.update_score!
-      review.unlock!
+      review.edit_unlock!
       flash[:notice] = "Updated review."
       if policy(Review).index?
         redirect_to @song
