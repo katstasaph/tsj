@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   
   get '/pages/:page', to: 'pages#show', as: 'page'
   post '/admin/reposition' => 'admin#reposition', :as => 'reposition'
+  post '/admin/clear_locks' => 'admin#clear_locks', :as => 'clear_locks'
 
   match '/songs/:id/wp' => 'songs#wp', :as => 'wp_song', :via => [:post]
   match '/reviews/:id/move' => 'reviews#move', :as => 'move', :via => [:patch]
