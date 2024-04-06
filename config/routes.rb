@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   resources :reviews
   resources :announcements
@@ -28,6 +30,10 @@ Rails.application.routes.draw do
 
   match '/songs/:id/wp' => 'songs#wp', :as => 'wp_song', :via => [:post]
   match '/reviews/:id/move' => 'reviews#move', :as => 'move', :via => [:patch]
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => "/sidekiq"
+  end
 
   get '*a' => redirect { |p, req| req.flash[:alert] = "Invalid URL."; '/' }, constraints: lambda { |req|
     req.path.exclude? 'rails/active_storage' }
