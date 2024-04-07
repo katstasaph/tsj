@@ -142,3 +142,90 @@ input {
   border-radius: 15px;
   box-shadow: rgba(6, 24, 44, 0.25) 0px 0px 0px 2px, rgba(6, 24, 44, 0.2) 0px 4px 6px -1px, rgba(255, 255, 255, 0.01) 0px 1px 0px inset;
 }
+
+/* Mobile styles */
+@media only screen and (max-width: 480px) {
+
+  body {
+    font-size: 1.2em;
+  }
+
+  nav span.tab {
+    width: 95%;
+    border-right: 0;
+    padding: 0.3em;
+    display: block;
+    font-size: 1em;
+  }
+
+  /* Song list */
+  table.songs {
+    width: 100%;
+  }
+  table.songs tr {
+    box-shadow: none;
+  }
+
+  table.songs tr td {
+    display:block;
+  }
+
+  tr.empty {
+    background: rgba(170,187,255, 0.25);
+  }
+
+  tr.blurbed {
+    background: rgba(170,187,255, 0.6);
+  }
+
+  tr.ready {
+    background: rgba(178,242,187, 0.5);
+  }
+
+  tr.full {
+    background: rgba(255, 227, 227, 0.8);
+  }
+
+  tr.closed {
+    background: rgba(255,243,191, 0.5);
+  }
+
+  tr.published {
+    background: rgba(206,212,218, 0.4);
+  }
+
+  /* Editing */
+  .main form select {
+    margin: 0.5em 0 1em 0;
+    padding: 0.5em 0;
+    font-size: 1em;
+  }
+
+  .main form label {
+      margin: 0.5em 0 1em 0;
+      padding: 0.5em 0;
+      font-size: 1.3em;
+    }
+
+  trix-toolbar {
+    margin-top: 0.5em;
+  }
+
+  trix-toolbar .trix-button-group {
+    display: block;
+  }
+
+  trix-toolbar .trix-button-group:not(:first-child) {
+    margin-left: 0.5em;
+  }
+
+  .main form trix-editor {
+    min-height: 15em;
+  }
+
+  .main form input[type="submit"] {
+    font-size: 1.2em;
+    padding: 0.5em;
+  }
+
+ }
