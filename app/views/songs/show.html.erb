@@ -2,10 +2,14 @@
   <h4>
   <%= button_to "Edit song info", edit_song_path(@song.id),  { :method => "get" } %>
   <% if @song.open? %>
-    <%= button_to "Close song for editing", song_path(song: { status: "closed" }), { method: :patch, form: { data: { turbo: true } } } %>  
+    <%= button_to "Close song for editing", song_path(song: { status: "closed" }), 
+      { method: :patch, form: { data: { turbo: true, controller: "confirmations", 
+        action: "submit->confirmations#blurber_confirmation", confirmations_blurbers_value: @song.current_blurbers } 
+      } } 
+    %> 
   <% else if @song.closed? %>
     <%= button_to "Reopen song", song_path(song: { status: "open" }), { method: :patch, form: { data: { turbo: true } } } %>  
-    <%= form_with url: wp_song_path, method: :post, data: { turbo: true } do |form| %>
+    <%= form_with url: wp_song_path, method: :post, data: { turbo: true } do |form| %>s
 	    <div>
           <%= form.label "Schedule post at (GMT):" %>
           <%= form.text_field :post_time,
@@ -59,12 +63,12 @@
     <%  @song.reviews.each do |review| %>
         <li data-id ="<%= review.id %>">
 	        <%= turbo_frame_tag "review_#{review.id}", target: "_top" do %>
-              <strong><a href="<%= review.user.url %>" target="_blank"><%= review.user.name %>:</strong></a> <%= sanitize review.content %>
-            <% end %>
+            <strong><a href="<%= review.user.url %>" target="_blank"><%= review.user.name %>:</strong></a> <%= sanitize review.content %>
+          <% end %>
 		  <div class="review"></div>
           [<%= review.score %>]<br>
           <% if policy(review).edit? && review.can_edit?(current_user.name) %>
-			     (<%= link_to "Edit this review", edit_review_path(review), data: { turbo_frame: dom_id(review) } %>)
+			      (<%= link_to "Edit this review", edit_review_path(review), data: { turbo_frame: dom_id(review) } %>)
           <% elsif policy(review).edit? && !review.can_edit?(current_user.name) %>
             (<%= review.current_editor %> is editing)
           <% end %>

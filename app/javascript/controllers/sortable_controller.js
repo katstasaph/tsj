@@ -23,7 +23,6 @@ export default class extends Controller {
   async end(event) {
     const request = new FetchRequest('patch', `/reviews/${event.item.dataset.id}/move`, { query: {oldIndex: event.oldIndex, newIndex: event.newIndex}});
     const response = await request.perform()
-    console.log(response)
   }
 
 }
