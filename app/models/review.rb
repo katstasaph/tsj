@@ -43,7 +43,7 @@ class Review < ApplicationRecord
       self.current_editor = name
       self.save
       # todo: pass model rather than ID?
-      ExpireEditLockJob.set(wait: EDIT_LOCK_TIMEOUT.seconds).perform_later(self.id)
+      ExpireEditLockJob.set(wait: EDIT_LOCK_TIMEOUT.minutes).perform_later(self.id)
     end    
   end
   
