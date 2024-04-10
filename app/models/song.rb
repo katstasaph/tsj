@@ -76,6 +76,14 @@ class Song < ApplicationRecord
     end
     true
   end
+  
+  def register_blurbing_session(blurber)
+    ActiveBlurbing.create_blurbing_session(blurber.name, self)
+  end
+  
+  def current_blurbers
+    ActiveBlurbing.by_song(self.id).pluck(:blurber).join(", ")
+  end
 
   private  
   
