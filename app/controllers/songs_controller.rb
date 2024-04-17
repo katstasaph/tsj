@@ -4,7 +4,7 @@ class SongsController < ApplicationController
   def index
     authorize Song
     @songs = Song.list_available(policy_scope(Song.by_created), current_user)
-	@announcement = Announcement.find(1)
+	  @announcement = Announcement.find(1)
   end
   
   def show
@@ -20,7 +20,6 @@ class SongsController < ApplicationController
   def create
     authorize Song
     @song = Song.new(song_params)
-    @song.status = 0
     if @song.save
       flash[:notice] = "Added song!"
       redirect_to action: :index
