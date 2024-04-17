@@ -105,3 +105,37 @@ class CollateBlurbTest < ActiveSupport::TestCase
     assert_equal(expected_post, song.generate_html)
   end
 end
+
+# todo: this is a concern, so tests for it should probably not be here
+class SchedulableTest < ActiveSupport::TestCase
+
+  test "the current posting month come the second Monday of November is December" do
+    month = Schedulable.next_posting_month(Date.new(2024, 11, 11))
+    assert_equal("December 2024", month)
+  end  
+
+  test "the current posting month before the second Monday of December is that December" do
+    month = Schedulable.next_posting_month(Date.new(2024, 12, 1))
+    assert_equal("December 2024", month)
+  end
+  
+  test "the current posting month come the second Monday of December is the next January" do
+    month = Schedulable.next_posting_month(Date.new(2024, 12, 9))
+    assert_equal("January 2025", month)
+  end
+
+  test "the current posting month after the first Monday of November is December" do
+    month = Schedulable.next_posting_month(Date.new(2024, 11, 5))
+    assert_equal("December 2024", month)
+  end  
+  
+  test "the next posting month before the first Monday of December is that December" do
+    month = Schedulable.next_posting_month(Date.new(2024, 12, 1))
+    assert_equal("December 2024", month)
+  end
+  
+  test "the next posting month after the first Monday of December is the next January" do
+    month = Schedulable.next_posting_month(Date.new(2024, 12, 3))
+    assert_equal("January 2025", month)
+  end
+end

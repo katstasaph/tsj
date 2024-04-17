@@ -1,5 +1,7 @@
 class Song < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include Schedulable
+  
   enum :status, [ :open, :closed, :published ]
   has_rich_text :subhead
   has_many :reviews, dependent: :destroy
@@ -22,8 +24,13 @@ class Song < ApplicationRecord
 
   TEMP_IMAGE_HOST = 'https://blurber.onrender.com'
   
+  before_create do |song| 
+    song.status ||= 0
+    song.month_year = Schedulable.next_posting_month
+  end
+  
   def self.list_available(songs, current_user)
-    songs.map do |song|
+    songs.where(["month_year = ?", Schedulable.current_posting_month]).map do |song|
       written = false
       song.reviews.each do |review|
           if review.by_user?(current_user.id)
