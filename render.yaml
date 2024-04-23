@@ -27,7 +27,6 @@ services:
     name: blurber
     runtime: ruby
     plan: free
-    region: ohio
     buildCommand: "./bin/render-build.sh"
     preDeployCommand: "./bin/rails db:migrate db:seed" 
     startCommand: "./bin/rails server"
