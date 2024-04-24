@@ -26,6 +26,8 @@ class Review < ApplicationRecord
     self.user_id == id
   end
   
+  # Review lock methods
+  
   # All review lock methods use user's name rather than ID to prevent having to query the database again to display the user's name.
   # Since we are not updating the user records in any way, nothing more is needed.
   def can_edit?(name)
@@ -40,6 +42,7 @@ class Review < ApplicationRecord
     unless self.current_editor == name
       self.current_editor = name
       self.save
+      # todo: pass model rather than ID?
       ExpireEditLockJob.set(wait: EDIT_LOCK_TIMEOUT.minutes).perform_later(self.id)
     end    
   end
