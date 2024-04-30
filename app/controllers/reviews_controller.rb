@@ -20,7 +20,7 @@ class ReviewsController < ApplicationController
     @review = @song.reviews.build(review_params)
     @review.user = current_user
     if @review.save
-      @song.end_blurbing_session
+      @song.end_blurbing_session(current_user)
       @song.update_score!
       flash[:notice] = "Added review!"
       redirect_to root_path
