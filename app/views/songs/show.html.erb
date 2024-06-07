@@ -9,7 +9,7 @@
     %> 
   <% else if @song.closed? %>
     <%= button_to "Reopen song", song_path(song: { status: "open" }), { method: :patch, form: { data: { turbo: true } } } %>  
-    <%= form_with url: wp_song_path, method: :post, data: { turbo: true } do |form| %>s
+    <%= form_with url: wp_song_path, method: :post, data: { turbo: true } do |form| %>
 	    <div>
           <%= form.label "Schedule post at (GMT):" %>
           <%= form.text_field :post_time,
