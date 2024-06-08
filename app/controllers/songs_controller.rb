@@ -59,7 +59,7 @@ class SongsController < ApplicationController
       end
       redirect_to root_path
     else
-      flash[:alert] = "Error scheduling via WordPress API. This is most likely because you have not set up your API key, please do that."
+      flash[:alert] = "Error authenticating to WordPress API, ping Katherine"
       redirect_to root_path
     end
   end
