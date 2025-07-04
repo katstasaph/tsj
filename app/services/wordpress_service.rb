@@ -1,6 +1,6 @@
 class WordpressService
   MEDIA_URI = 'https://www.thesinglesjukebox.com/index.php?rest_route=/wp/v2/media'
-  POST_URI = 'https://www.thesinglesjukebox.com/index.php?rest_route=/wp/v2/posts'
+  POST_URI = 'https://thesinglesjukebox.com/wp-json/wp/v2/posts'
 
   def self.create_post(time, title, subhead, post, user)
      #res = self.upload_image(title, pic, user)
