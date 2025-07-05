@@ -25,10 +25,7 @@ class WordpressService
   end
 
   def self.post_song(time, title, subhead, post, user)  
-    wp_username = user.wp_username
-    wp_password = user.wp_password
-    # Workaround for editors without correct credentials, I would rather not have this in here but circumstances are demanding it
-    if user.editor_or_above? && (!wp_username || !wp_password)
+    if user.editor_or_above?
       k = User.find_by(username: "katstasaph")
       wp_username = k.wp_username
       wp_password = k.wp_password

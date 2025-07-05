@@ -76,7 +76,7 @@
             (<%= link_to "Delete this review", review_path(review), :method => :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>)
           <% end %>
           <% if policy(User).show? %>
-            (<%= link_to "All #{review.user.name} blurbs", user_path(review.user) %>)
+            (<%= link_to "All #{review.user.name} blurbs", user_path(review.user, unpublished_only: "true") %>)
           <% end %>
         </li>
   <% end %>
