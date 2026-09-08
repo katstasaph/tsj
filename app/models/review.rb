@@ -26,6 +26,14 @@ class Review < ApplicationRecord
     self.user_id == id
   end
   
+  def associate_writer!(current_user, name)
+    if current_user.admin? and name
+      self.user = User.find_by(name: name)
+    else 
+      self.user = current_user
+    end
+  end
+  
   # Review lock methods
   
   # All review lock methods use user's name rather than ID to prevent having to query the database again to display the user's name.
