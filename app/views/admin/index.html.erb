@@ -4,11 +4,24 @@
     <%= link_to "Add user", new_user_path %>
   <% end %>
   <p></p>
+</h3>
+<h3>Manually insert blurb</h3>
+<p>Insert a blurb for the song: </p>
+<%= form_with method: :get, url: manual_add_blurb_path do |form| %>
+  <div>
+    <%= form.collection_select :song_id, @songs, :id, :title %>
+  </div>
+  <div>
+    <%= form.submit "Add blurb" %>
+  </div>
+<% end %>
+</h3>
+  <h3>
   <% if current_user.admin? %>
     <%= button_to "Repair blurb positions", reposition_path %>
   <% end %>
  </h3>
-  Manually resets the positions of reviews associated with ALL open songs. Blurb order may shift in flight.
+  Resets the positions of reviews associated with ALL open songs. Blurb order may shift in flight.
   <p></p>
   <h3>
   <% if current_user.admin? %>

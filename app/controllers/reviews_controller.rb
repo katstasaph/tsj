@@ -10,6 +10,7 @@ class ReviewsController < ApplicationController
   def new
     authorize Review
     @song = Song.find(params[:song_id])
+    @manual_add = params[:manual_add]
     @song.register_blurbing_session(current_user)
     @review = @song.reviews.build
   end
@@ -17,8 +18,8 @@ class ReviewsController < ApplicationController
   def create
     authorize Review
     @song = Song.find_by(id: params[:song_id])
-    @review = @song.reviews.build(review_params)
-    @review.user = current_user
+    @review = @song.reviews.build(review_params.except(:writer))
+    @review.associate_writer!(current_user, params[:review][:writer])
     if @review.save
       @song.end_blurbing_session(current_user)
       @song.update_score!
@@ -81,7 +82,7 @@ class ReviewsController < ApplicationController
   end
   
   def review_params
-    params.require(:review).permit(:score, :content, :position)
+    params.require(:review).permit(:score, :content, :position, :writer)
   end
 
 end

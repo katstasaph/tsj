@@ -20,6 +20,11 @@
     <%= form.rich_text_area :content %>
   </div>
 
+  <% if current_user.admin? and @manual_add %>
+    <%= form.label :writer %><br>
+    <%= form.text_field :writer %>
+  <% end %>
+
   <div>
     <%= form.submit %>
   </div>
