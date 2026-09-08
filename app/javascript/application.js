@@ -2,7 +2,8 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-import "rhino-editor"
+import "trix"
+import "@rails/actiontext"
 
 document.addEventListener("turbo:frame-missing", event => {
   if (event.detail.response.redirected) {
