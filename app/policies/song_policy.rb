@@ -49,9 +49,8 @@ class SongPolicy < ApplicationPolicy
     user.admin?
   end
   
-  # todo: default to post under my username for reasons of realism
   def wp?
-    (user.editor_or_above?) && (user.wp_username != "" && user.wp_password != "" )
+    user.editor_or_above?
   end
   
 end
